@@ -1,0 +1,18 @@
+import re
+def line(csvfile):
+    l = csvfile.readline()
+    comma_regex = re.compile('.*,$')
+    if l != '':
+        l = l.split('#')[0]
+        l = l.replace('\t','')
+        l = l.replace('\n','')
+        l = l.replace(' ','')
+        end_comma = comma_regex.match(l)
+        if end_comma:
+            return l+line(csvfile)
+        else:
+            return l
+    else:
+        return -1
+csvfile = open('../data/weather1.csv','r')
+index = 0
