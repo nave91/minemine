@@ -1,11 +1,15 @@
 import re
 csvfile = open('../data/weather1.csv','r')
-index = 0
+csvindex = -1
+tabindex = -1
+col = []
 klass = []
 more = []
 less = []
 num = []
 term = []
+dep = []
+indep = []
 def line(csvfile):
     l = csvfile.readline()
     endcommare = re.compile('.*,$')
@@ -21,3 +25,4 @@ def line(csvfile):
             return l
     else:
         return -1
+
