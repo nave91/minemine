@@ -10,6 +10,17 @@ num = []
 term = []
 dep = []
 indep = []
+nump = []
+wordp = []
+hi = []
+lo = []
+mu = []
+m2 = []
+sd = []
+count = []
+mode = []
+most = [] 
+isnum = True
 def line(csvfile):
     l = csvfile.readline()
     endcommare = re.compile('.*,$')

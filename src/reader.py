@@ -10,11 +10,21 @@ def check():
     print 'less: ',less
     print 'num: ',num
     print 'term: ',term
+    print 'nump: ',nump
     print 'col: ',col
+    print 'hi: ',hi
+    print 'lo: ',lo
+    print 'mu: ',mu
+    print 'sd: ',sd
+    print 'wordp: ',wordp
+    print 'count: ',count
+    print 'mode: ',mode
+    print 'most: ',most
 
 def makeTable(str,csvindex,tabindex):
     print 'In makeTable'
     for csvcol in str:
+        isnum=True
         csvindex+=1
         ignorere = re.compile('\?.*$')
         ignore = ignorere.match(csvcol)
@@ -35,6 +45,7 @@ def makeTable(str,csvindex,tabindex):
             if klasschk:
                 dep.append([csvcol,tabindex])
                 klass.append([csvcol,tabindex])
+                isnum = False
             elif morechk:
                 dep.append([csvcol,tabindex])
                 more.append([csvcol,tabindex])
@@ -47,7 +58,20 @@ def makeTable(str,csvindex,tabindex):
             else:
                 indep.append([csvcol,tabindex])
                 term.append([csvcol,tabindex])
-        check()
+                isnum = False
+            if isnum:
+                nump.append([csvcol,tabindex])
+                hi.append([-10**13,tabindex])
+                lo.append([10**13,tabindex])
+                mu.append([0,tabindex])
+                m2.append([0,tabindex])
+                sd.append([0,tabindex])
+            else:
+                wordp.append([csvcol,tabindex])
+                count.append([0,tabindex])
+                mode.append([0,tabindex])
+                most.append([0,tabindex])
+    check()
     
 def addRow(str):
     r = len(str)+1
