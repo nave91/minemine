@@ -26,22 +26,17 @@ def makeTable(str,csvindex,tabindex):
     for csvcol in str:
         isnum=True
         csvindex+=1
-        ignorere = re.compile('\?.*$')
-        ignore = ignorere.match(csvcol)
+        ignore = re.match('\?.*$',csvcol)
         if ignore:
             continue
         else:
             tabindex+=1
             col.append([csvcol,csvindex,tabindex])
             print csvcol
-            klassre = re.compile('=.*$')
-            morere = re.compile('\+.*$')
-            lessre = re.compile('-.*$')
-            numre = re.compile('\$.*$')
-            klasschk = klassre.match(csvcol)
-            morechk = morere.match(csvcol)
-            lesschk = lessre.match(csvcol)
-            numchk = numre.match(csvcol)
+            klasschk = re.match('=.*$',csvcol)
+            morechk = re.match('\+.*$',csvcol)
+            lesschk = re.match('-.*$',csvcol)
+            numchk = re.match('\$.*$',csvcol)
             if klasschk:
                 dep.append([csvcol,tabindex])
                 klass.append([csvcol,tabindex])
@@ -73,8 +68,16 @@ def makeTable(str,csvindex,tabindex):
                 most.append([0,tabindex])
     check()
     
-def addRow(str):
-    r = len(str)+1
+def addRow(str,col,data,csvindex,tabindex):
+    temp = []
+    for i in range(0,len(col)):
+        item = str[col[i][1]]
+        temp.append(item)
+        uncertain = re.match('\?',item)
+        if uncertain:
+            print 'hello'
+    data.append(temp)
+    print data
     #print str
 def readCsv(csvfile):
     seen = False
@@ -87,7 +90,7 @@ def readCsv(csvfile):
         str = str.split(FS)
         if str != ['']:
             if seen:
-                addRow(str)
+                addRow(str,col,data,csvindex,tabindex)
             else:
                 seen = True
                 makeTable(str,csvindex,tabindex)

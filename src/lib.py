@@ -3,6 +3,7 @@ csvfile = open('../data/weather1.csv','r')
 csvindex = -1
 tabindex = -1
 col = []
+data = []
 klass = []
 more = []
 less = []
@@ -36,4 +37,3 @@ def line(csvfile):
             return l
     else:
         return -1
-
