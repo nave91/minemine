@@ -1,27 +1,6 @@
 import re
-csvfile = open('../data/weather1.csv','r')
-csvindex = -1
-tabindex = -1
-col = []
-data = []
-klass = []
-more = []
-less = []
-num = []
-term = []
-dep = []
-indep = []
-nump = []
-wordp = []
-hi = []
-lo = []
-mu = []
-m2 = []
-sd = []
-count = []
-mode = []
-most = [] 
-isnum = True
+from globfile import *
+
 def line(csvfile):
     l = csvfile.readline()
     endcommare = re.compile('.*,$')
@@ -37,3 +16,17 @@ def line(csvfile):
             return l
     else:
         return -1
+
+def rowprint(row):
+    columns = [ "%15s" % cell for cell in row]
+    columns.append("%4s" % '#')
+    return ' '.join(columns)
+   
+def expected(row):
+    out = [c for c in colname]
+    for c in row:
+        if c in wordp:
+            out[colname.index(c)] = str(mode[c])
+        else:
+            out[colname.index(c)] = str('%0.2f' % round(mu[c],2))
+    return out
