@@ -1,7 +1,7 @@
 import re
 from globfile import *
 
-def line(csvfile):
+def line(csvfile): #returns formatted line from the csvfile 
     l = csvfile.readline()
     endcommare = re.compile('.*,$')
     if l != '':
@@ -17,12 +17,12 @@ def line(csvfile):
     else:
         return -1
 
-def rowprint(row):
+def rowprint(row): #returns neat rows
     columns = [ "%15s" % cell for cell in row]
     columns.append("%4s" % '#')
     return ' '.join(columns)
    
-def expected(row):
+def expected(row): #returns expected outcome
     out = [c for c in colname]
     for c in row:
         if c in wordp:

@@ -1,15 +1,17 @@
-from globfile import *
-from lib import *
-def tableprint(csvfile): #prints table with the summary
+from reader import *
+def tableprint(csvfile):
+    readCsv(csvfile)
     print rowprint(colname),'%10s' % 'notes'
     print rowprint(expected(colname)), '%10s' % 'expected'
     temp = [ c for c in colname ]
     for c in colname:
         if c in nump:
-            temp[colname.index(c)] = str('%0.2f' % round(sd[c],2))
+            temp[colname.index(c)] = str(sd[c])
         else:
-            temp[colname.index(c)] = str('%0.2f' % round(float(most[c])/float(n[c]),2))
+            print most[c],n[c]
+            temp[colname.index(c)] = str(most[c]/n[c])
     print rowprint(temp),'%10s' % 'certainity'
     for row in data:
         print rowprint(row)
 
+tableprint(csvfile)

@@ -1,28 +1,6 @@
 import re
 from lib import *
 
-def check():
-    print "\n\n"
-    print 'dep: ',dep
-    print 'indep: ',indep
-    print 'klass: ',klass
-    print 'more: ',more
-    print 'less: ',less
-    print 'num: ',num
-    print 'term: ',term
-    print 'nump: ',nump
-    print 'colname: ',colname
-    print 'order: ',order
-    print 'data: ',data
-    print 'hi: ',hi
-    print 'lo: ',lo
-    print 'mu: ',mu
-    print 'sd: ',sd
-    print 'wordp: ',wordp
-    print 'count: ',count
-    print 'mode: ',mode
-    print 'most: ',most
-
 def makeTable(str,csvindex):
     for csvcol in str:
         isnum=True
@@ -66,8 +44,7 @@ def makeTable(str,csvindex):
                 wordp.append(csvcol)
                 count[csvcol] = dict()
                 mode[csvcol] = 0
-                most[csvcol] = 0
-                
+                most[csvcol] = 0               
     
 def addRow(str,predclass,pred,colname,data,csvindex):
     temp = []
@@ -134,6 +111,3 @@ def readCsv(csvfile,predclass,pred):
             else:
                 seen = True
                 makeTable(str,csvindex)
-#csvfile = open('../data/weather1.csv','r')
-#readCsv(csvfile,'=play','no')
-#check()

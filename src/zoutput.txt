@@ -1,0 +1,40 @@
+WARNING: empty or missing file
+        outlook      -$humidity           windy           =play    #      notes
+          sunny           81.83           FALSE             yes    #   expected
+           0.36           21.94            0.57            0.64    # certainity
+          sunny            90.0           FALSE              no    #
+          sunny            90.0            TRUE              no    #
+       overcast            86.0           FALSE             yes    #
+          rainy            96.0           FALSE             yes    #
+          rainy            80.0           FALSE             yes    #
+          rainy               ?            TRUE              no    #
+       overcast            65.0            TRUE             yes    #
+          sunny               ?           FALSE              no    #
+          sunny            70.0           FALSE             yes    #
+          rainy            80.0           FALSE             yes    #
+          sunny            70.0            TRUE             yes    #
+       overcast            90.0            TRUE             yes    #
+       overcast            75.0           FALSE             yes    #
+          rainy            90.0            TRUE              no    #
+WARNING: empty or missing file
+        outlook      -$humidity           windy           =play    #      notes
+       overcast           79.11           FALSE             yes    #   expected
+           0.44            6.72            0.67            1.00    # certainity
+       overcast            86.0           FALSE             yes    #
+          rainy            96.0           FALSE             yes    #
+          rainy            80.0           FALSE             yes    #
+       overcast            65.0            TRUE             yes    #
+          sunny            70.0           FALSE             yes    #
+          rainy            80.0           FALSE             yes    #
+          sunny            70.0            TRUE             yes    #
+       overcast            90.0            TRUE             yes    #
+       overcast            75.0           FALSE             yes    #
+WARNING: empty or missing file
+        outlook      -$humidity           windy           =play    #      notes
+          sunny           90.00            TRUE              no    #   expected
+           0.60            0.00            0.60            1.00    # certainity
+          sunny            90.0           FALSE              no    #
+          sunny            90.0            TRUE              no    #
+          rainy               ?            TRUE              no    #
+          sunny               ?           FALSE              no    #
+          rainy            90.0            TRUE              no    #
