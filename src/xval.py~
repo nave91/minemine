@@ -1,0 +1,12 @@
+#! /bin/python
+import lib
+import reader
+
+def xvals(csvfile,x,b,f,a):
+    rows = indexes(data)
+    s = int(len(rows)/b)
+    while x>0:
+        shuffle(rows)
+        for b1 in range(0,b):
+            xval(b1*s+1, (b1+1)*s, data, f, a)
+ 

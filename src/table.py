@@ -13,3 +13,6 @@ def tableprint(csvfile): #prints table with the summary
     for row in data:
         print rowprint(row)
 
+def klass1(row, data):
+    for k in klass:
+        return order[k]

@@ -3,6 +3,7 @@
 csvindex = -1 #initialized to -1 as lists start at zero
 colname = [] #stores names of columns
 data = [] #stores list of lists containing each row
+test = [] #stores test data
 #
 #metadata
 #
@@ -35,3 +36,7 @@ count = dict((dict.fromkeys(wordp))) #dictionary of dictionaries of count of eac
 #
 n = dict.fromkeys(colname) #stores number of elements in each column
 isnum = True
+#
+#for the zeror
+#
+

@@ -30,3 +30,9 @@ def expected(row): #returns expected outcome
         else:
             out[colname.index(c)] = str('%0.2f' % round(mu[c],2))
     return out
+
+def indexes(lst):
+    out = []*len(lst)
+    for i in lst:
+        out[i] = i
+    return out

@@ -91,9 +91,9 @@ def addRow(str,predclass,pred,colname,data,csvindex):
                     lo[c] = item
                 delta = item - mu[c]
                 mu[c] += delta / n[c]
-                m2[c] = delta * (item - mu[c])
+                m2[c] += delta * (item - mu[c])
                 if n[c] > 1:
-                    sd[c] = (m2[c] / (n[c] - 1)**0.5)
+                    sd[c] = (m2[c] / (n[c] - 1))**0.5
     data.append(temp)    
 
 def readCsv(csvfile,predclass,pred):
