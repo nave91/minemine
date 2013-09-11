@@ -1,9 +1,12 @@
 from reader import *
 from table import *
 from sys import argv
+from xval import *
+
 csvfile = open('../data/weather1.csv','r')
-readCsv(csvfile,argv[1],argv[2]) #takes predicted column as 
-                                 #first arguement and predicted value as second arguement
+readCsv(csvfile,argv[1]) #takes predicted value as arguement
+print data[argv[1]]
+xvals(data,2,3,'zeror',argv[1])
                                  
-tableprint(csvfile)
+#tableprint(argv[1])
 
