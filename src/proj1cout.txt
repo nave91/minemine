@@ -1,0 +1,69 @@
+WARNING: empty or missing file
+#got:  yes
+57.1428571429 	
+
+==================================
+        outlook      -$humidity           windy           =play    #      notes
+          rainy           77.20           FALSE             yes    #   expected
+           0.40           11.90            0.80            1.00    # certainity
+       overcast            75.0           FALSE             yes    #
+          rainy            80.0           FALSE             yes    #
+          rainy            96.0           FALSE             yes    #
+       overcast            65.0            TRUE             yes    #
+          sunny            70.0           FALSE             yes    #
+        outlook      -$humidity           windy           =play    #      notes
+          rainy           90.00            TRUE              no    #   expected
+           0.50            0.00            0.50            1.00    # certainity
+          rainy            90.0            TRUE              no    #
+          sunny            90.0           FALSE              no    #
+#got:  yes
+71.4285714286 	
+
+==================================
+        outlook      -$humidity           windy           =play    #      notes
+       overcast           81.50            TRUE             yes    #   expected
+           0.50            8.70            0.50            1.00    # certainity
+          sunny            70.0            TRUE             yes    #
+       overcast            86.0           FALSE             yes    #
+       overcast            90.0            TRUE             yes    #
+          rainy            80.0           FALSE             yes    #
+        outlook      -$humidity           windy           =play    #      notes
+          sunny           90.00            TRUE              no    #   expected
+           0.67            0.00            0.67            1.00    # certainity
+          rainy               ?            TRUE              no    #
+          sunny               ?           FALSE              no    #
+          sunny            90.0            TRUE              no    #
+#got:  yes
+57.1428571429 	
+
+==================================
+        outlook      -$humidity           windy           =play    #      notes
+          rainy           77.20           FALSE             yes    #   expected
+           0.40           11.90            0.80            1.00    # certainity
+          sunny            70.0           FALSE             yes    #
+       overcast            65.0            TRUE             yes    #
+          rainy            80.0           FALSE             yes    #
+          rainy            96.0           FALSE             yes    #
+       overcast            75.0           FALSE             yes    #
+        outlook      -$humidity           windy           =play    #      notes
+          sunny           90.00           FALSE              no    #   expected
+           0.50            0.00            0.50            1.00    # certainity
+          sunny            90.0           FALSE              no    #
+          rainy            90.0            TRUE              no    #
+#got:  yes
+71.4285714286 	
+
+==================================
+        outlook      -$humidity           windy           =play    #      notes
+       overcast           81.50           FALSE             yes    #   expected
+           0.50            8.70            0.50            1.00    # certainity
+       overcast            86.0           FALSE             yes    #
+          rainy            80.0           FALSE             yes    #
+          sunny            70.0            TRUE             yes    #
+       overcast            90.0            TRUE             yes    #
+        outlook      -$humidity           windy           =play    #      notes
+          sunny           90.00            TRUE              no    #   expected
+           0.67            0.00            0.67            1.00    # certainity
+          sunny               ?           FALSE              no    #
+          sunny            90.0            TRUE              no    #
+          rainy               ?            TRUE              no    #
