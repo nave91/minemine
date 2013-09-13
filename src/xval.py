@@ -17,6 +17,7 @@ def  xval(start, stop, data, rows, f, z):
     rmax = len(rows)
     test = []
     hypotheses = {}
+    temp = ""
     newddict(data,z)
     for r in range(1, rmax):
         d = rows[r]

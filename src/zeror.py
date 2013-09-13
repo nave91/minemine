@@ -5,6 +5,7 @@ from lib import *
 def zeror(test,data,hypotheses,z):
     hmost = -10**23
     acc = 0
+    got = ""
     for h in hypotheses:
         these = len(data[h])
         if these > hmost:
