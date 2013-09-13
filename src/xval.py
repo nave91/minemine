@@ -10,7 +10,7 @@ def xvals(data,x,b,f,z):
     while x>0:
         shuffled(rows)
         for b1 in range(0,b):
-            xval(b1*s+1, (b1+1)*s, data, rows, f, z)
+            xval(b1*s, (b1+1)*s, data, rows, f, z)
         x=x-1
 
 def  xval(start, stop, data, rows, f, z):
@@ -19,9 +19,9 @@ def  xval(start, stop, data, rows, f, z):
     hypotheses = {}
     temp = ""
     newddict(data,z)
-    for r in range(1, rmax):
+    for r in range(0, rmax):
         d = rows[r]
-        if r >= start and r <= stop:
+        if r >= start and r < stop:
             test.append(d)
         else:
             temp = klass1(d, z)
@@ -34,7 +34,8 @@ def  xval(start, stop, data, rows, f, z):
                 hypotheses[temp] = 1
                 if hypotheses[temp] == 1:
                     makeTable(colname[z],temp)
-    zeror(test, data, hypotheses, temp) 
+                addRow(d,temp)
+    zeror(test, data, hypotheses, z) 
     xvalTest1(test,data,hypotheses)
 
 def xvalTest1(test,data,hypotheses):

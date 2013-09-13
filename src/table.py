@@ -19,4 +19,4 @@ def klass1(data, z):
 
 def klassAt(z):
     for k in klass[z]:
-        return order[z][k]
+        return colname[z].index(k)

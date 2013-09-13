@@ -2,7 +2,7 @@
 %%Title: globfile.py, lib.py, readered.py, reader.py, table.py, xval.py, zeror.py
 %%For: rekoJ
 %%Creator: a2ps version 4.14
-%%CreationDate: Fri Sep 13 19:20:10 2013
+%%CreationDate: Tue Sep 10 17:12:56 2013
 %%BoundingBox: 24 24 588 768
 %%DocumentData: Clean7Bit
 %%Orientation: Landscape
@@ -943,11 +943,11 @@ x0 y0 moveto
 0 T (#) N
 0 T () S
 (hypotheses = {}) p n
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 18:11) title
+(573:proj 1c: Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 10, 13 4:00) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/globfile.py) (1/7) (Friday September 13, 2013) footer
+(globfile.py) (1/7) (Tuesday September 10, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
@@ -1116,11 +1116,11 @@ x0 y0 moveto
 (def) K
 ( shuffled\(rows\):) p n
 0 T (    shuffle\(rows\)) N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 18:11) title
+(573:proj 1c: Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 10, 13 3:44) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/lib.py) (2/7) (Friday September 13, 2013) footer
+(lib.py) (2/7) (Tuesday September 10, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
@@ -1164,18 +1164,20 @@ x0 y0 moveto
 0 T (readCsv\(csvfile,argv[1]\) ) S
 (#takes predicted value as arguement) c n
 0 T () S
-(xvals\(data,2,2,') p
+(print) K
+( data[argv[1]]) p n
+0 T (xvals\(data,2,3,') S
 (zeror) str
 (',argv[1]\)) p n
-0 T (                                 ) N
-(10) # () S
+(10) # (                                 ) N
+0 T () S
 (#tableprint\(argv[1]\)) c n
 0 T () N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 18:51) title
+(573:proj 1c: Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 10, 13 14:52) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/readered.py) (3/7) (Friday September 13, 2013) footer
+(readered.py) (3/7) (Tuesday September 10, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
@@ -1201,7 +1203,7 @@ x0 y0 moveto
 0 T () N
 0 T () S
 (def) K
-( makeTable\(lst,z\):) p n
+( makeTable\(str,z\):) p n
 (5) # (    newdlist\(klass,z\)) N
 0 T (    newddict\(order,z\)) N
 0 T (    newdlist\(less,z\)) N
@@ -1229,7 +1231,7 @@ x0 y0 moveto
 (for) K
 ( csvcol ) p
 (in) K
-( lst:) p n
+( str:) p n
 0 T (        isnum=True) N
 (30) # (        csvindex+=1) N
 0 T (        ignore = re.match\(') S
@@ -1301,13 +1303,13 @@ x0 y0 moveto
 0 T (                wordp[z].append\(csvcol\)) N
 0 T (                count[z][csvcol] = {}) N
 0 T (                mode[z][csvcol] = 0) N
-(70) # (                most[z][csvcol] = 0 ) N
+(70) # (                most[z][csvcol] = 0               ) N
 0 T (    ) N
 0 T () S
 (def) K
 ( addRow\(lst,z\):) p n
 0 T (    temp = []) N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/2) (Sep 13, 13 18:29) title
+(573:proj 1c: Naveen Kumar Lekkalapudi) (Page 1/2) (Sep 10, 13 15:42) title
 border
 /v 1 store
 /x0 x v get 2.965278 add sx cw mul add store
@@ -1332,7 +1334,7 @@ x0 y0 moveto
 ( z ) p
 (\272) sy
 ( ") p
-(both) str
+(zero) str
 (":) p n
 0 T (            skip = False) N
 0 T (    ) S
@@ -1403,7 +1405,7 @@ x0 y0 moveto
 (if) K
 ( n[z][c] > 1:) p n
 (115) # (                    sd[z][c] = \(m2[z][c] / \(n[z][c] - 1\)\)**0.5) N
-0 T (    data[z].append\(temp\)) N
+0 T (    data[z].append\(temp\)    ) N
 0 T () N
 0 T () S
 (def) K
@@ -1415,10 +1417,10 @@ x0 y0 moveto
 0 T (    ) S
 (while) K
 ( True:) p n
-0 T (        lst = line\(csvfile\)) N
+0 T (        str = line\(csvfile\)) N
 0 T (        ) S
 (if) K
-( lst ) p
+( str ) p
 (\272) sy
 ( -1:) p n
 0 T (            ) S
@@ -1429,26 +1431,26 @@ x0 y0 moveto
 (125) # (            ) S
 (return) K
 ( -1 ) p n
-0 T (        lst = lst.split\(FS\)) N
+0 T (        str = str.split\(FS\)) N
 0 T (        ) S
 (if) K
-( lst ) p
+( str ) p
 (\271) sy
 ( ['']:) p n
 0 T (            ) S
 (if) K
 ( seen:) p n
-0 T (                addRow\(lst,z\)) N
+0 T (                addRow\(str,z\)) N
 (130) # (            ) S
 (else) K
 (:) p n
 0 T (                seen = True) N
-0 T (                makeTable\(lst,z\)) N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 2/2) (Sep 13, 13 18:29) title
+0 T (                makeTable\(str,z\)) N
+(573:proj 1c: Naveen Kumar Lekkalapudi) (Page 2/2) (Sep 10, 13 15:42) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/reader.py) (4/7) (Friday September 13, 2013) footer
+(reader.py) (4/7) (Tuesday September 10, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
@@ -1555,12 +1557,12 @@ x0 y0 moveto
 ( klass[z]:) p n
 0 T (        ) S
 (return) K
-( colname[z].index\(k\)) p n
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 18:40) title
+( order[z][k]) p n
+(573:proj 1c: Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 10, 13 14:05) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/table.py) (5/7) (Friday September 13, 2013) footer
+(table.py) (5/7) (Tuesday September 10, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
@@ -1612,31 +1614,29 @@ x0 y0 moveto
 ( b1 ) p
 (in) K
 ( range\(0,b\):) p n
-0 T (            xval\(b1*s, \(b1+1\)*s, data, rows, f, z\)) N
-0 T (        x=x-1) N
-(15) # () N
-0 T () S
+0 T (            xval\(b1*s+1, \(b1+1\)*s, data, rows, f, z\)) N
+0 T () N
+(15) # () S
 (def) K
 (  xval\(start, stop, data, rows, f, z\):) p n
 0 T (    rmax = len\(rows\)) N
 0 T (    test = []) N
-0 T (    hypotheses = {}) N
-(20) # (    temp = "") N
-0 T (    newddict\(data,z\)) N
 0 T (    ) S
 (for) K
 ( r ) p
 (in) K
-( range\(0, rmax\):) p n
+( range\(1, rmax\):) p n
 0 T (        d = rows[r]) N
-0 T (        ) S
+(20) # (        ) S
 (if) K
 ( r ) p
 (\263) sy
 ( start ) p
 (\331) sy
-( r < stop:) p n
-(25) # (            test.append\(d\)) N
+( r ) p
+(\243) sy
+( stop:) p n
+0 T (            test.append\(d\)) N
 0 T (        ) S
 (else) K
 (:) p n
@@ -1644,32 +1644,25 @@ x0 y0 moveto
 0 T (            ) S
 (try) K
 (:) p n
-0 T (                hypotheses[temp] += 1) N
-(30) # (                ) S
+(25) # (                hypotheses[temp] += 1) N
+0 T (                ) S
 (if) K
 ( hypotheses[temp] ) p
 (\272) sy
 ( 1:) p n
-0 T (                    makeTable\(colname[z],temp\)) N
-0 T (                addRow\(d,temp\)) N
+0 T (                    makeTable\(colname[temp],temp\)) N
+0 T (                addRow\(d,z\)) N
 0 T (            ) S
 (except) K
 ( KeyError:) p n
-0 T (                hypotheses[temp] = 1) N
-(35) # (                ) S
-(if) K
-( hypotheses[temp] ) p
-(\272) sy
-( 1:) p n
-0 T (                    makeTable\(colname[z],temp\)) N
-0 T (                addRow\(d,temp\)) N
+(30) # (                hypotheses[temp] = 0) N
 0 T (    zeror\(test, data, hypotheses, z\) ) N
 0 T (    xvalTest1\(test,data,hypotheses\)) N
-(40) # () N
+0 T () N
 0 T () S
 (def) K
 ( xvalTest1\(test,data,hypotheses\):) p n
-0 T (    ) S
+(35) # (    ) S
 (print) K
 ( ") p
 (\\n==================================) str
@@ -1680,11 +1673,11 @@ x0 y0 moveto
 (in) K
 ( hypotheses:) p n
 0 T (        tableprint\(h\)) N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:12) title
+(573:proj 1c: Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 10, 13 15:48) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/xval.py) (6/7) (Friday September 13, 2013) footer
+(xval.py) (6/7) (Tuesday September 10, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
@@ -1720,46 +1713,55 @@ x0 y0 moveto
 ( zeror\(test,data,hypotheses,z\):) p n
 0 T (    hmost = -10**23) N
 0 T (    acc = 0) N
-0 T (    got = "") N
 0 T (    ) S
 (for) K
 ( h ) p
 (in) K
 ( hypotheses:) p n
-(10) # (        these = len\(data[h]\)) N
-0 T (        ) S
+0 T (        these = len\(data[h]\)) N
+(10) # (        ) S
 (if) K
 ( these > hmost:) p n
-0 T (            hmost = these) N
+0 T (            most = these) N
 0 T (            got = h) N
 0 T (    ) S
 (print) K
 ( ") p
 (#got: ) str
 (",got) p n
-(15) # (    where = klassAt\(z\)) N
+0 T (    where = klassAt\(z\)) N
+(15) # (    ) S
+(print) K
+( test,') p
+(testtttttt) str
+(') p n
+0 T (    ) S
+(print) K
+( data,') p
+(dataaaaaaaaaaa) str
+(') p n
 0 T (    ) S
 (for) K
 ( t ) p
 (in) K
 ( test:) p n
-0 T (        want = t[where]) N
+0 T (        want = data[z][data[z].index\(t\)][where]) N
 0 T (        ) S
 (if) K
 ( want ) p
 (\272) sy
 ( got:) p n
-0 T (            acc+=1.0) N
-(20) # (    ) S
+(20) # (            acc+=1) N
+0 T (    ) S
 (print) K
 ( 100*acc/len\(test\),") p
 (\\t) str
 (") p n
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 18:40) title
+(573:proj 1c: Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 10, 13 15:49) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/zeror.py) (7/7) (Friday September 13, 2013) footer
+(zeror.py) (7/7) (Tuesday September 10, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage

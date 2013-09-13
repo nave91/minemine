@@ -1,7 +1,7 @@
 import re
 from lib import *
 
-def makeTable(str,z):
+def makeTable(lst,z):
     newdlist(klass,z)
     newddict(order,z)
     newdlist(less,z)
@@ -25,7 +25,7 @@ def makeTable(str,z):
     newdlist(data,z)
 
     csvindex = -1
-    for csvcol in str:
+    for csvcol in lst:
         isnum=True
         csvindex+=1
         ignore = re.match('\?.*$',csvcol)
@@ -67,7 +67,7 @@ def makeTable(str,z):
                 wordp[z].append(csvcol)
                 count[z][csvcol] = {}
                 mode[z][csvcol] = 0
-                most[z][csvcol] = 0               
+                most[z][csvcol] = 0 
     
 def addRow(lst,z):
     temp = []
@@ -77,7 +77,7 @@ def addRow(lst,z):
         item = lst[csvindex]
         if item != z:
             skip = True
-        if z == "zero":
+        if z == "both":
             skip = False
     for c in colname[z]:
         csvindex = order[z][c]
@@ -113,20 +113,20 @@ def addRow(lst,z):
                 m2[z][c] += delta * (item - mu[z][c])
                 if n[z][c] > 1:
                     sd[z][c] = (m2[z][c] / (n[z][c] - 1))**0.5
-    data[z].append(temp)    
+    data[z].append(temp)
 
 def readCsv(csvfile,z):
     seen = False
     FS = ','
     while True:
-        str = line(csvfile)
-        if str == -1:
+        lst = line(csvfile)
+        if lst == -1:
             print 'WARNING: empty or missing file'
             return -1 
-        str = str.split(FS)
-        if str != ['']:
+        lst = lst.split(FS)
+        if lst != ['']:
             if seen:
-                addRow(str,z)
+                addRow(lst,z)
             else:
                 seen = True
-                makeTable(str,z)
+                makeTable(lst,z)

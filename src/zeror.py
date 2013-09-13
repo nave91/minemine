@@ -9,7 +9,7 @@ def zeror(test,data,hypotheses,z):
     for h in hypotheses:
         these = len(data[h])
         if these > hmost:
-            most = these
+            hmost = these
             got = h
     print "#got: ",got
     where = klassAt(z)
