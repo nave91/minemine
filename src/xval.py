@@ -1,43 +1,37 @@
 #! /bin/python
-from lib import *
-from reader import *
-from table import *
-from zeror import *
+import lib
+import reader
 
-def xvals(data,x,b,f,z):
-    rows = indexes(data,z)
+def xvals(csvfile,x,b,f,a):
+    rows = indexes(csvfile)
     s = int(len(rows)/b)
     while x>0:
-        shuffled(rows)
+        shuffle(rows)
         for b1 in range(0,b):
-            xval(b1*s+1, (b1+1)*s, data, rows, f, z)
-        x=x-1
+            xval(b1*s+1, (b1+1)*s, rows, csvfile, f, a)
 
-def  xval(start, stop, data, rows, f, z):
+def  xval(start, stop, rows, csvfile, f, a):
     rmax = len(rows)
+<<<<<<< HEAD
+<<<<<<< HEAD
     test = []
     hypotheses = {}
     temp = ""
     newddict(data,z)
     for r in range(1, rmax):
+=======
+    test = []*(end - start)
+    for i in range(1, rmax+1):
+>>>>>>> parent of b30e56c... working zeror
+=======
+    test = []*(end - start)
+    for i in range(1, rmax+1):
+>>>>>>> parent of b30e56c... working zeror
         d = rows[r]
-        if r >= start and r <= stop:
-            test.append(d)
+        if r >= start && r <= end:
+            test[r] = d
         else:
-            temp = klass1(d, z)
-            try:
-                hypotheses[temp] += 1
-                if hypotheses[temp] == 1:
-                    makeTable(colname[z],temp)
-                addRow(d,temp)
-            except KeyError:
-                hypotheses[temp] = 1
-                if hypotheses[temp] == 1:
-                    makeTable(colname[z],temp)
-    zeror(test, data, hypotheses, temp) 
-    xvalTest1(test,data,hypotheses)
-
-def xvalTest1(test,data,hypotheses):
-    print "\n=================================="
-    for h in hypotheses:
-        tableprint(h)
+            temp = klass1(d, data)
+            hypotheses[temp] += 1
+            if hypotheses[temp] == 1:
+                makeTable(

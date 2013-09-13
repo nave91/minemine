@@ -1,6 +1,5 @@
 import re
 from globfile import *
-from random import *
 
 def line(csvfile): #returns formatted line from the csvfile 
     l = csvfile.readline()
@@ -23,13 +22,13 @@ def rowprint(row): #returns neat rows
     columns.append("%4s" % '#')
     return ' '.join(columns)
    
-def expected(row,z): #returns expected outcome
-    out = [c for c in colname[z]]
+def expected(row): #returns expected outcome
+    out = [c for c in colname]
     for c in row:
-        if c in wordp[z]:
-            out[colname[z].index(c)] = str(mode[z][c])
+        if c in wordp:
+            out[colname.index(c)] = str(mode[c])
         else:
-            out[colname[z].index(c)] = str('%0.2f' % round(mu[z][c],2))
+            out[colname.index(c)] = str('%0.2f' % round(mu[c],2))
     return out
 
 def indexes(lst):
@@ -37,18 +36,3 @@ def indexes(lst):
     for i in lst:
         out[i] = i
     return out
-
-def newdlist(name, key):
-    name[key] = [] 
-
-def newddict(name,key):
-    name[key] = {}
-
-def newddictdict(name,key,c):
-    name[key][c] = {}
-
-def indexes(data,z):
-    return data[z]
-
-def shuffled(rows):
-    shuffle(rows)
