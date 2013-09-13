@@ -1,0 +1,9 @@
+WARNING: empty or missing file
+#got:  frogeyeleafspot
+11.4369501466 	
+#got:  phytophthorarot
+12.0234604106 	
+#got:  frogeyeleafspot
+11.4369501466 	
+#got:  alternarialeafspot
+11.4369501466 	
