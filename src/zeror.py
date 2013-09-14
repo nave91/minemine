@@ -11,10 +11,10 @@ def zeror(test,data,hypotheses,z):
         if these > hmost:
             hmost = these
             got = h
-    print "#got: ",got
+    #print "#got: ",got
     where = klassAt(z)
     for t in test:
         want = t[where]
         if want == got:
             acc+=1.0
-    print 100*acc/len(test),"\t"
+    print '%0.2f' % round(100*acc/len(test),2),

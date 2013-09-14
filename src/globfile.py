@@ -40,3 +40,7 @@ isnum = True
 #for the zeror
 #
 hypotheses = {}
+#
+#for naive bayes
+l = {} #dictionary of likelyhood
+#

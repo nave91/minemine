@@ -1,6 +1,9 @@
 import re
 from globfile import *
 from random import *
+from math import *
+PI = 3.1415926535
+EE = 2.7182818284 
 
 def line(csvfile): #returns formatted line from the csvfile 
     l = csvfile.readline()
@@ -52,3 +55,7 @@ def indexes(data,z):
 
 def shuffled(rows):
     shuffle(rows)
+
+def norm(x,m,s):
+    s += 1/10**23
+    return 1/sqrt(2*PI*s**2)*EE**(-1*(x-m)**2/(2*s**2))
