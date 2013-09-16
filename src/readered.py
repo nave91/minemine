@@ -3,9 +3,9 @@ from table import *
 from sys import argv
 from xval import *
 
-csvfile = open('../data/iris.csv','r')
-readCsv(csvfile,argv[1]) #takes predicted value as arguement
-xvals(data,5,5,'zeror',argv[1],1,2)
+csvfile = open('../data/'+argv[1]+'.csv','r')
+readCsv(csvfile,argv[2]) #takes predicted value as arguement
+xvals(data,5,5,'nb',argv[2],1,2)
                                  
 #tableprint(argv[1])
 
