@@ -1,0 +1,1988 @@
+%!PS-Adobe-3.0
+%%Title: globfile.py, lib.py, nb.py, proj1d.txt, readered.py, reader.py, table.py, xval.py, zeror.py
+%%For: rekoJ
+%%Creator: a2ps version 4.14
+%%CreationDate: Sun Sep 15 23:45:35 2013
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 9
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      % <vector> <key> <val>
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def % -
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Get the underline position and thickness if they're defined.
+    % Use 1 if they are not defined.
+    currentdict /FontInfo 2 copy known
+    { get
+      /UnderlinePosition 2 copy % <FontInfo> /UP <FontInfo> /UP
+      2 copy known
+      { get }{ pop pop 1 } ifelse
+      0 exch FontMatrix transform exch pop
+      def % <FontInfo>
+
+      /UnderlineThickness 2 copy % <FontInfo> /UT <FontInfo> /UT
+      2 copy known
+      { get }{ pop pop 1 } ifelse
+      0 exch FontMatrix transform exch pop
+      def % <FontInfo>
+      pop % -
+    }{ pop pop
+    } ifelse
+
+    currentdict
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed string
+% Version 1.2 1/31/1990
+% Orignal Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 612 def
+/sw 792 def
+/llx 24 def
+/urx 768 def
+/ury 588 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 7.060185 def
+/cw 4.236111 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 86.400000 mul
+def
+/ph
+   520.335631 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 5 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (#Info for table) c n
+0 T (#) N
+0 T () S
+(csvindex = -1 ) p
+(#initialized to -1 as lists start at zero) c n
+0 T () S
+(colname = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#stores dict of names of columns) c n
+(5) # () S
+(data = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#stores dict of list of lists containing each r) c n
+0 T (ow) N
+0 T () S
+(test = [] ) p
+(#stores test data) c n
+0 T (#) N
+0 T (#metadata) N
+0 T (#) N
+(10) # () S
+(order = {k:dict.fromkeys\(colname\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#stores colnames and index ) c n
+0 T (of column in csv) N
+0 T () S
+(klass = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list of klass columns) c n
+0 T () S
+(more = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list of more columns) c n
+0 T () S
+(less = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list of less columns) c n
+0 T () S
+(num = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list of num columns) c n
+(15) # () S
+(term = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list of term columns) c n
+0 T () S
+(dep = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list of dependent columns) c n
+0 T () S
+(indep = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list of independent columns) c n
+0 T () S
+(nump = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list containing nump column names) c n
+0 T () S
+(wordp = {k: [] ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dict of list containing wordp column names) c n
+(20) # (#) N
+0 T (#for nump values) N
+0 T (#) N
+0 T () S
+(hi = {k:dict.fromkeys\(nump\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dictionary containing highest va) c n
+0 T (lues of nump columns ) N
+0 T () S
+(lo = {k:dict.fromkeys\(nump\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dictionary containing lowest val) c n
+0 T (ues of nump columns) N
+(25) # () S
+(mu = {k:dict.fromkeys\(nump\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dictionary containing mean value) c n
+0 T (s of nump columns) N
+0 T () S
+(m2 = {k:dict.fromkeys\(nump\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dictionary containing m2 values ) c n
+0 T (of nump columns) N
+0 T () S
+(sd = {k:dict.fromkeys\(nump\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dictionary containing std dev of) c n
+0 T ( nump columns) N
+0 T (#) N
+0 T (#for wordp values) N
+(30) # (#) N
+0 T () S
+(mode = {k:dict.fromkeys\(wordp\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dictionary containing mode of) c n
+0 T ( wordp columns) N
+0 T () S
+(most = {k:dict.fromkeys\(wordp\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#dictionary containing most oc) c n
+0 T (cured item of wordp columns) N
+0 T () S
+(count = {k:dict\(dict.fromkeys\(wordp\)\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\) }) p
+(#dictionary of dictiona) c n
+0 T (ries of count of each item in each wordp column) N
+0 T (#) N
+(35) # (#for all) N
+0 T (#) N
+0 T () S
+(n = {k:dict.fromkeys\(colname\) ) p
+(for) K
+( k ) p
+(in) K
+( range\(1\)} ) p
+(#stores number of elements in e) c n
+0 T (ach column) N
+0 T () S
+(isnum = True) p n
+0 T () S
+(#) c n
+(40) # (#for the zeror) N
+0 T (#) N
+0 T () S
+(hypotheses = {}) p n
+0 T () S
+(#) c n
+0 T (#for naive bayes) N
+(45) # () S
+(l = {} ) p
+(#dictionary of likelyhood) c n
+0 T (#) N
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 14, 13 17:21) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/globfile.py) (1/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (import) K
+( re) p n
+0 T () S
+(from) K
+( globfile ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( random ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( math ) p
+(import) K
+( *) p n
+(5) # (PI = 3.1415926535) N
+0 T (EE = 2.7182818284 ) N
+0 T () N
+0 T () S
+(def) K
+( line\(csvfile\): ) p
+(#returns formatted line from the csvfile ) c n
+0 T () S
+(    l = csvfile.readline\(\)) p n
+(10) # (    endcommare = re.compile\(') S
+(.*,$) str
+('\)) p n
+0 T (    ) S
+(if) K
+( l ) p
+(\271) sy
+( '':) p n
+0 T (        l = l.split\(') S
+(#) str
+('\)[0]) p n
+0 T (        l = l.replace\(') S
+(\\t) str
+(',''\)) p n
+0 T (        l = l.replace\(') S
+(\\n) str
+(',''\)) p n
+(15) # (        l = l.replace\(') S
+( ) str
+(',''\)) p n
+0 T (        endcomma = endcommare.match\(l\)) N
+0 T (        ) S
+(if) K
+( endcomma:) p n
+0 T (            ) S
+(return) K
+( l+line\(csvfile\)) p n
+0 T (        ) S
+(else) K
+(:) p n
+(20) # (            ) S
+(return) K
+( l) p n
+0 T (    ) S
+(else) K
+(:) p n
+0 T (        ) S
+(return) K
+( -1) p n
+0 T () N
+0 T () S
+(def) K
+( rowprint\(row\): ) p
+(#returns neat rows) c n
+(25) # () S
+(    columns = [ ") p
+(%15s) str
+(" % cell ) p
+(for) K
+( cell ) p
+(in) K
+( row]) p n
+0 T (    columns.append\(") S
+(%4s) str
+(" % ') p
+(#) str
+('\)) p n
+0 T (    ) S
+(return) K
+( ') p
+( ) str
+('.join\(columns\)) p n
+0 T (   ) N
+0 T () S
+(def) K
+( expected\(row,z\): ) p
+(#returns expected outcome) c n
+(30) # () S
+(    out = [c ) p
+(for) K
+( c ) p
+(in) K
+( colname[z]]) p n
+0 T (    ) S
+(for) K
+( c ) p
+(in) K
+( row:) p n
+0 T (        ) S
+(if) K
+( c ) p
+(in) K
+( wordp[z]:) p n
+0 T (            out[colname[z].index\(c\)] = str\(mode[z][c]\)) N
+0 T (        ) S
+(else) K
+(:) p n
+(35) # (            out[colname[z].index\(c\)] = str\(') S
+(%0.2f) str
+(' % round\(mu[z][c],2\)\)) p n
+0 T (    ) S
+(return) K
+( out) p n
+0 T () N
+0 T () S
+(def) K
+( indexes\(lst\):) p n
+0 T (    out = []*len\(lst\)) N
+(40) # (    ) S
+(for) K
+( i ) p
+(in) K
+( lst:) p n
+0 T (        out[i] = i) N
+0 T (    ) S
+(return) K
+( out) p n
+0 T () N
+0 T () S
+(def) K
+( newdlist\(name, key\):) p n
+(45) # (    name[key] = [] ) N
+0 T () N
+0 T () S
+(def) K
+( newddict\(name,key\):) p n
+0 T (    name[key] = {}) N
+0 T () N
+(50) # () S
+(def) K
+( newddictdict\(name,key,c\):) p n
+0 T (    name[key][c] = {}) N
+0 T () N
+0 T () S
+(def) K
+( indexes\(data,z\):) p n
+0 T (    ) S
+(return) K
+( data[z]) p n
+(55) # () N
+0 T () S
+(def) K
+( shuffled\(rows\):) p n
+0 T (    shuffle\(rows\)) N
+0 T () N
+0 T () S
+(def) K
+( norm\(x,m,s\):) p n
+(60) # (    s += 1/10**23) N
+0 T (    ) S
+(return) K
+( 1/sqrt\(2*PI*s**2\)*EE**\(-1*\(x-m\)**2/\(2*s**2\)\)) p n
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 14, 13 18:33) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/lib.py) (2/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (#! /usr/bin/env python) c n
+0 T () S
+(from) K
+( lib ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( reader ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( xval ) p
+(import) K
+( *) p n
+(5) # () S
+(from) K
+( math ) p
+(import) K
+( *) p n
+0 T () N
+0 T () S
+(def) K
+( nb\(test,data,hypotheses,z,k,m\):) p n
+0 T (    total = 0.0) N
+0 T (    acc = 0.0) N
+(10) # (    ) S
+(for) K
+( h ) p
+(in) K
+( hypotheses:) p n
+0 T (        total += len\(data[h]\)) N
+0 T (    where = klassAt\(z\)) N
+0 T (    ) S
+(for) K
+( t ) p
+(in) K
+( test:) p n
+0 T (        want = t[where]) N
+(15) # (        got = likelyhood\(t,data,total,hypotheses,l,z,k,m\)) N
+0 T (        ) S
+(if) K
+( want ) p
+(\272) sy
+( got:) p n
+0 T (            acc+=1.0) N
+0 T (    ) S
+(print) K
+( ') p
+(%0.2f) str
+(' % round\(100*acc/len\(test\),2\),) p n
+0 T () N
+(20) # () S
+(def) K
+( likelyhood\(t,data,total,hypotheses,l,z,k,m\):) p n
+0 T (    like = -0.1*10**23) N
+0 T (    best = '') N
+0 T (    total += k*len\(hypotheses\)) N
+0 T (    ) S
+(for) K
+( h ) p
+(in) K
+( hypotheses:) p n
+(25) # (        nh = len\(data[h]\)*0.1) N
+0 T (        prior = \(nh+k\) / total) N
+0 T (        tmp = log\(prior\)) N
+0 T (        ) S
+(for) K
+( c ) p
+(in) K
+( term[h]:) p n
+0 T (            ) S
+(try) K
+(:) p n
+(30) # (                ind = colname[h].index\(c\)) N
+0 T (                x = t[ind]) N
+0 T (                ) S
+(if) K
+( x ) p
+(\272) sy
+( ') p
+(?) str
+(':) p n
+0 T (                    ) S
+(continue) K n
+0 T () S
+(                y = count[h][c][x]) p n
+(35) # (                tmp += log\(\(y + m*prior\)/\(nh+m\)\)) N
+0 T (            ) S
+(except) K
+( KeyError:) p n
+0 T (                ) S
+(continue) K n
+0 T () S
+(        ) p
+(for) K
+( c ) p
+(in) K
+( num[h]:) p n
+0 T (            ind = colname[h].index\(c\)) N
+(40) # (            x = t[ind]) N
+0 T (            ) S
+(if) K
+( x ) p
+(\272) sy
+( ') p
+(?) str
+(':) p n
+0 T (                ) S
+(continue) K n
+0 T () S
+(            y = norm\(x, mu[h][c], sd[h][c]\)) p n
+0 T (            tmp += log\(y\)) N
+(45) # (        l[h] = tmp) N
+0 T (        ) S
+(if) K
+( tmp ) p
+(\263) sy
+( like:) p n
+0 T (            like = tmp;) N
+0 T (            best = h) N
+0 T (    ) S
+(return) K
+( best) p n
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 14, 13 18:34) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/nb.py) (3/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (diabetes) p n
+0 T (zeror) N
+0 T (63.40 62.09 64.71 61.44 73.20 54.25 66.67 71.90 62.09 70.59 64.05 69.28 64.71 64) N
+0 T (.71 62.75 65.36 67.32 64.05 60.13 68.63 60.78 66.67 61.44 65.36 71.90) N
+0 T (diabetes) N
+(5) # (nb) N
+0 T (75.16 75.82 77.12 75.82 76.47 75.82 74.51 76.47 77.12 77.12 76.47 69.93 81.05 73) N
+0 T (.20 81.05 80.39 71.90 75.16 78.43 75.16 78.43 69.93 76.47 81.70 73.86) N
+0 T (soybean) N
+0 T (zeror) N
+0 T (11.76 12.50 11.03 14.71 12.50 14.71 11.76 14.71 11.03 15.44 16.18 11.76 7.35 17.) N
+0 T (65 13.97 17.65 9.56 10.29 11.76 13.24 11.03 11.03 9.56 16.18 19.12) N
+(10) # (soybean) N
+0 T (nb) N
+0 T (61.03 69.85 74.26 80.88 82.35 79.41 88.24 86.76 85.29 86.03 83.82 86.03 91.18 84) N
+0 T (.56 91.91 86.03 91.18 88.97 83.82 90.44 86.03 87.50 88.97 88.24 88.97) N
+0 T (iris) N
+0 T (zeror) N
+(15) # (26.67 33.33 20.00 46.67 26.67 30.00 36.67 26.67 40.00 33.33 26.67 33.33 33.33 30) N
+0 T (.00 30.00 23.33 33.33 13.33 36.67 33.33 20.00 36.67 26.67 43.33 20.00) N
+0 T (iris) N
+0 T (nb) N
+0 T (96.67 90.00 100.00 96.67 93.33 93.33 96.67 86.67 100.00 100.00 93.33 93.33 90.00) N
+0 T ( 100.00 100.00 96.67 96.67 93.33 100.00 93.33 96.67 96.67 96.67 96.67 93.33) N
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 15, 13 23:44) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/proj1d.txt) (4/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (from) K
+( reader ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( table ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( sys ) p
+(import) K
+( argv) p n
+0 T () S
+(from) K
+( xval ) p
+(import) K
+( *) p n
+(5) # () N
+0 T (csvfile = open\(') S
+(../data/iris.csv) str
+(',') p
+(r) str
+('\)) p n
+0 T (readCsv\(csvfile,argv[1]\) ) S
+(#takes predicted value as arguement) c n
+0 T () S
+(xvals\(data,5,5,') p
+(zeror) str
+(',argv[1],1,2\)) p n
+0 T (                                 ) N
+(10) # () S
+(#tableprint\(argv[1]\)) c n
+0 T () N
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 15, 13 23:42) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/readered.py) (5/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 6
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (import) K
+( re) p n
+0 T () S
+(from) K
+( lib ) p
+(import) K
+( *) p n
+0 T () N
+0 T () S
+(def) K
+( makeTable\(lst,z\):) p n
+(5) # (    newdlist\(klass,z\)) N
+0 T (    newddict\(order,z\)) N
+0 T (    newdlist\(less,z\)) N
+0 T (    newdlist\(num,z\)) N
+0 T (    newdlist\(term,z\)) N
+(10) # (    newdlist\(dep,z\)) N
+0 T (    newdlist\(indep,z\)) N
+0 T (    newdlist\(nump,z\)) N
+0 T (    newdlist\(wordp,z\)) N
+0 T (    newdlist\(colname,z\)) N
+(15) # (    newdlist\(data,z\)) N
+0 T (    newddict\(count,z\)) N
+0 T (    newddict\(n,z\)) N
+0 T (    newddict\(mode,z\)) N
+0 T (    newddict\(most,z\)) N
+(20) # (    newddict\(hi,z\)) N
+0 T (    newddict\(lo,z\)) N
+0 T (    newddict\(mu,z\)) N
+0 T (    newddict\(m2,z\)) N
+0 T (    newddict\(sd,z\)) N
+(25) # (    newdlist\(data,z\)) N
+0 T () N
+0 T (    csvindex = -1) N
+0 T (    ) S
+(for) K
+( csvcol ) p
+(in) K
+( lst:) p n
+0 T (        isnum=True) N
+(30) # (        csvindex+=1) N
+0 T (        ignore = re.match\(') S
+(\\?.*$) str
+(',csvcol\)) p n
+0 T (        ) S
+(if) K
+( ignore:) p n
+0 T (            ) S
+(continue) K n
+0 T () S
+(        ) p
+(else) K
+(:) p n
+(35) # (            colname[z].append\(csvcol\)) N
+0 T (            order[z][csvcol] = csvindex) N
+0 T (            klasschk = re.match\(') S
+(=.*$) str
+(',csvcol\)) p n
+0 T (            morechk = re.match\(') S
+(\\+.*$) str
+(',csvcol\)) p n
+0 T (            lesschk = re.match\(') S
+(-.*$) str
+(',csvcol\)) p n
+(40) # (            numchk = re.match\(') S
+(\\$.*$) str
+(',csvcol\)) p n
+0 T (            ) S
+(if) K
+( klasschk:) p n
+0 T (                dep[z].append\(csvcol\)) N
+0 T (                klass[z].append\(csvcol\)) N
+0 T (                isnum = False) N
+(45) # (            ) S
+(elif) K
+( morechk:) p n
+0 T (                dep[z].append\(csvcol\)) N
+0 T (                more[z].append\(csvcol\)) N
+0 T (            ) S
+(elif) K
+( lesschk:) p n
+0 T (                dep[z].append\(csvcol\)) N
+(50) # (                less[z].append\(csvcol\)) N
+0 T (            ) S
+(elif) K
+( numchk:) p n
+0 T (                indep[z].append\(csvcol\)) N
+0 T (                num[z].append\(csvcol\)) N
+0 T (            ) S
+(else) K
+(:) p n
+(55) # (                indep[z].append\(csvcol\)) N
+0 T (                term[z].append\(csvcol\)) N
+0 T (                isnum = False) N
+0 T (            n[z][csvcol] = 0) N
+0 T (            ) S
+(if) K
+( isnum:) p n
+(60) # (                nump[z].append\(csvcol\)) N
+0 T (                hi[z][csvcol] = 0.1 * \(-10**13\)) N
+0 T (                lo[z][csvcol] = 0.1 * \(10**13\)) N
+0 T (                mu[z][csvcol] = 0.0) N
+0 T (                m2[z][csvcol] = 0.0) N
+(65) # (                sd[z][csvcol] = 0.0) N
+0 T (            ) S
+(else) K
+(:) p n
+0 T (                wordp[z].append\(csvcol\)) N
+0 T (                count[z][csvcol] = {}) N
+0 T (                mode[z][csvcol] = 0) N
+(70) # (                most[z][csvcol] = 0 ) N
+0 T (    ) N
+0 T () S
+(def) K
+( addRow\(lst,z\):) p n
+0 T (    temp = []) N
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/2) (Sep 13, 13 19:26) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (    skip = False) p n
+(75) # (    ) S
+(for) K
+( c ) p
+(in) K
+( klass[z]:) p n
+0 T (        csvindex = order[z][c]) N
+0 T (        item = lst[csvindex]) N
+0 T (        ) S
+(if) K
+( item ) p
+(\271) sy
+( z:) p n
+0 T (            skip = True) N
+(80) # (        ) S
+(if) K
+( z ) p
+(\272) sy
+( ") p
+(both) str
+(":) p n
+0 T (            skip = False) N
+0 T (    ) S
+(for) K
+( c ) p
+(in) K
+( colname[z]:) p n
+0 T (        csvindex = order[z][c]) N
+0 T (        item = lst[csvindex]) N
+(85) # (        uncertain = re.match\(') S
+(\\?) str
+(',str\(item\)\)) p n
+0 T (        ) S
+(if) K
+( skip:) p n
+0 T (            ) S
+(return) K n
+0 T () S
+(        ) p
+(if) K
+( uncertain:) p n
+0 T (            temp.append\(item\)) N
+(90) # (        ) S
+(else) K
+(:) p n
+0 T (            n[z][c] += 1) N
+0 T (            ) S
+(if) K
+( c ) p
+(in) K
+( wordp[z]:) p n
+0 T (                temp.append\(item\)) N
+0 T (                ) S
+(try) K
+(:) p n
+(95) # (                    new = count[z][c][item] = count[z][c][item] + 1) N
+0 T (                    ) S
+(if) K
+( new > most[z][c]:) p n
+0 T (                        most[z][c] = new) N
+0 T (                        mode[z][c] = item) N
+0 T (                ) S
+(except) K
+( KeyError:) p n
+(100) # (                    count[z][c][item] = 1) N
+0 T (                    ) S
+(if) K
+( count[z][c][item] > most[z][c]: ) p n
+0 T (                        most[z][c] = 1) N
+0 T (                        mode[z][c] = item) N
+0 T (            ) S
+(else) K
+(:) p n
+(105) # (                item = float\(item\)) N
+0 T (                temp.append\(item\)) N
+0 T (                ) S
+(if) K
+( item > hi[z][c]:) p n
+0 T (                    hi[z][c] = item) N
+0 T (                ) S
+(if) K
+( item < lo[z][c]:) p n
+(110) # (                    lo[z][c] = item) N
+0 T (                delta = item - mu[z][c]) N
+0 T (                mu[z][c] += delta / n[z][c]) N
+0 T (                m2[z][c] += delta * \(item - mu[z][c]\)) N
+0 T (                ) S
+(if) K
+( n[z][c] > 1:) p n
+(115) # (                    sd[z][c] = \(m2[z][c] / \(n[z][c] - 1\)\)**0.5) N
+0 T (    data[z].append\(temp\)) N
+0 T () N
+0 T () S
+(def) K
+( readCsv\(csvfile,z\):) p n
+0 T (    seen = False) N
+(120) # (    FS = ') S
+(,) str
+(') p n
+0 T (    ) S
+(while) K
+( True:) p n
+0 T (        lst = line\(csvfile\)) N
+0 T (        ) S
+(if) K
+( lst ) p
+(\272) sy
+( -1:) p n
+0 T (            ) S
+(print) K
+( ') p
+(WARNING: empty or missing file) str
+(') p n
+(125) # (            ) S
+(return) K
+( -1 ) p n
+0 T (        lst = lst.split\(FS\)) N
+0 T (        ) S
+(if) K
+( lst ) p
+(\271) sy
+( ['']:) p n
+0 T (            ) S
+(if) K
+( seen:) p n
+0 T (                addRow\(lst,z\)) N
+(130) # (            ) S
+(else) K
+(:) p n
+0 T (                seen = True) N
+0 T (                makeTable\(lst,z\)) N
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 2/2) (Sep 13, 13 19:26) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/reader.py) (6/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 7
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (from) K
+( globfile ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( lib ) p
+(import) K
+( *) p n
+0 T () S
+(def) K
+( tableprint\(z\): ) p
+(#prints table with the summary) c n
+0 T () S
+(    ) p
+(print) K
+( rowprint\(colname[z]\),') p
+(%10s) str
+(' % ') p
+(notes) str
+(') p n
+(5) # (    ) S
+(print) K
+( rowprint\(expected\(colname[z],z\)\), ') p
+(%10s) str
+(' % ') p
+(expected) str
+(') p n
+0 T (    temp = [ c ) S
+(for) K
+( c ) p
+(in) K
+( range\(len\(colname[z]\)\)]) p n
+0 T (    ) S
+(for) K
+( c ) p
+(in) K
+( colname[z]:) p n
+0 T (        ) S
+(if) K
+( c ) p
+(in) K
+( nump[z]:) p n
+0 T (            temp[colname[z].index\(c\)] = str\(') S
+(%0.2f) str
+(' % round\(sd[z][c],2\)\)) p n
+(10) # (        ) S
+(else) K
+(:) p n
+0 T (            temp[colname[z].index\(c\)] = str\(') S
+(%0.2f) str
+(' % round\(float\(most[z][c]\)/fl) p n
+0 T (oat\(n[z][c]\),2\)\)) N
+0 T (    ) S
+(print) K
+( rowprint\(temp\),') p
+(%10s) str
+(' % ') p
+(certainity) str
+(') p n
+0 T (    ) S
+(for) K
+( row ) p
+(in) K
+( data[z]:) p n
+0 T (        ) S
+(print) K
+( rowprint\(row\)) p n
+(15) # () N
+0 T () S
+(def) K
+( klass1\(data, z\):) p n
+0 T (    ) S
+(for) K
+( k ) p
+(in) K
+( klass[z]:) p n
+0 T (        ) S
+(return) K
+( data[colname[z].index\(k\)]) p n
+0 T () N
+(20) # () S
+(def) K
+( klassAt\(z\):) p n
+0 T (    ) S
+(for) K
+( k ) p
+(in) K
+( klass[z]:) p n
+0 T (        ) S
+(return) K
+( colname[z].index\(k\)) p n
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:26) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/table.py) (7/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 8
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (#! /bin/python) c n
+0 T () S
+(from) K
+( lib ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( reader ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( table ) p
+(import) K
+( *) p n
+(5) # () S
+(from) K
+( zeror ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( nb ) p
+(import) K
+( *) p n
+0 T () N
+0 T () S
+(def) K
+( xvals\(data,x,b,f,z,k,m\):) p n
+0 T (    rows = indexes\(data,z\)) N
+(10) # (    s = int\(len\(rows\)/b\)) N
+0 T (    ) S
+(while) K
+( x>0:) p n
+0 T (        shuffled\(rows\)) N
+0 T (        ) S
+(for) K
+( b1 ) p
+(in) K
+( range\(0,b\):) p n
+0 T (            xval\(b1*s, \(b1+1\)*s, data, rows, f, z, k, m\)) N
+(15) # (        x=x-1) N
+0 T () N
+0 T () S
+(def) K
+(  xval\(start, stop, data, rows, f, z, k, m\):) p n
+0 T (    rmax = len\(rows\)) N
+0 T (    test = []) N
+(20) # (    temp = "") N
+0 T (    newddict\(data,z\)) N
+0 T (    ) S
+(for) K
+( r ) p
+(in) K
+( range\(0, rmax\):) p n
+0 T (        d = rows[r]) N
+0 T (        ) S
+(if) K
+( r ) p
+(\263) sy
+( start ) p
+(\331) sy
+( r < stop:) p n
+(25) # (            test.append\(d\)) N
+0 T (        ) S
+(else) K
+(:) p n
+0 T (            temp = klass1\(d, z\)) N
+0 T (            ) S
+(try) K
+(:) p n
+0 T (                hypotheses[temp] += 1) N
+(30) # (                ) S
+(if) K
+( hypotheses[temp] ) p
+(\272) sy
+( 1:) p n
+0 T (                    makeTable\(colname[z],temp\)) N
+0 T (                addRow\(d,temp\)) N
+0 T (            ) S
+(except) K
+( KeyError:) p n
+0 T (                hypotheses[temp] = 1) N
+(35) # (                ) S
+(if) K
+( hypotheses[temp] ) p
+(\272) sy
+( 1:) p n
+0 T (                    makeTable\(colname[z],temp\)) N
+0 T (                addRow\(d,temp\)) N
+0 T (    ) S
+(#zeror\(test, data, hypotheses, z\) ) c n
+0 T () S
+(    ) p
+(#xvalTest1\(test,data,hypotheses\)) c n
+(40) # () S
+(    nb\(test,data,hypotheses,z,k,m\)) p n
+0 T () N
+0 T () N
+0 T () S
+(def) K
+( xvalTest1\(test,data,hypotheses\):) p n
+0 T (    ) S
+(print) K
+( ") p
+(\\n==================================) str
+(") p n
+(45) # (    ) S
+(for) K
+( h ) p
+(in) K
+( hypotheses:) p n
+0 T (        tableprint\(h\)) N
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 15, 13 23:43) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/xval.py) (8/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 9
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (from) K
+( reader ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+(  xval ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( lib ) p
+(import) K
+( *) p n
+0 T () N
+(5) # () S
+(def) K
+( zeror\(test,data,hypotheses,z\):) p n
+0 T (    hmost = -10**23) N
+0 T (    acc = 0) N
+0 T (    got = "") N
+0 T (    ) S
+(for) K
+( h ) p
+(in) K
+( hypotheses:) p n
+(10) # (        these = len\(data[h]\)) N
+0 T (        ) S
+(if) K
+( these > hmost:) p n
+0 T (            hmost = these) N
+0 T (            got = h) N
+0 T (    ) S
+(#print "#got: ",got) c n
+(15) # () S
+(    where = klassAt\(z\)) p n
+0 T (    ) S
+(for) K
+( t ) p
+(in) K
+( test:) p n
+0 T (        want = t[where]) N
+0 T (        ) S
+(if) K
+( want ) p
+(\272) sy
+( got:) p n
+0 T (            acc+=1.0) N
+(20) # (    ) S
+(print) K
+( ') p
+(%0.2f) str
+(' % round\(100*acc/len\(test\),2\),) p n
+(573:proj1d:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 14, 13 18:12) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/zeror.py) (9/9) (Sunday September 15, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF
