@@ -17,6 +17,7 @@ def xvals(data,x,b,f,z,k,m):
 def  xval(start, stop, data, rows, f, z, k, m):
     rmax = len(rows)
     test = []
+    hypotheses = {}
     temp = ""
     newddict(data,z)
     for r in range(0, rmax):
@@ -35,10 +36,9 @@ def  xval(start, stop, data, rows, f, z, k, m):
                 if hypotheses[temp] == 1:
                     makeTable(colname[z],temp)
                 addRow(d,temp)
-    #zeror(test, data, hypotheses, z) 
+    zeror(test, data, hypotheses, z) 
     #xvalTest1(test,data,hypotheses)
-    nb(test,data,hypotheses,z,k,m)
-
+    #nb(test,data,hypotheses,z,k,m)
 
 def xvalTest1(test,data,hypotheses):
     print "\n=================================="

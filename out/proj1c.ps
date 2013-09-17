@@ -1,12 +1,12 @@
 %!PS-Adobe-3.0
-%%Title: globfile.py, lib.py, proj1coutsoybean.txt, proj1cout.txt, readered.py, reader.py, table.py, xval.py, zeror.py
+%%Title: accvalues.txt, globfile.py, lib.py, nb.py, proj1cout.txt, readered.py, reader.py, table.py, xval.py, zeror.py
 %%For: rekoJ
 %%Creator: a2ps version 4.14
-%%CreationDate: Fri Sep 13 19:41:01 2013
+%%CreationDate: Tue Sep 17 00:07:14 2013
 %%BoundingBox: 24 24 588 768
 %%DocumentData: Clean7Bit
 %%Orientation: Landscape
-%%Pages: 9
+%%Pages: 10
 %%PageOrder: Ascend
 %%DocumentMedia: Letter 612 792 0 () ()
 %%DocumentNeededResources: font Courier
@@ -757,6 +757,34 @@ llx lly 12 add translate
 /x0 x v get 2.965278 add sx cw mul add store
 /y0 y v get bfs th add sub store
 x0 y0 moveto
+0 T (weather) p n
+0 T (zeror) N
+0 T (WARNING: empty or missing file) N
+0 T (71.43 57.14 57.14 71.43) N
+(5) # (soybean) N
+0 T (zeror) N
+0 T (WARNING: empty or missing file) N
+0 T (11.73 11.44 11.44 12.32) N
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 17, 13 0:06) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/accvalues.txt) (1/10) (Tuesday September 17, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
 0 T (#Info for table) c n
 0 T (#) N
 0 T () S
@@ -943,15 +971,22 @@ x0 y0 moveto
 0 T (#) N
 0 T () S
 (hypotheses = {}) p n
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:26) title
+0 T () S
+(#) c n
+0 T (#for naive bayes) N
+(45) # () S
+(l = {} ) p
+(#dictionary of likelyhood) c n
+0 T (#) N
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 14, 13 17:21) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/globfile.py) (1/9) (Friday September 13, 2013) footer
+(/home/rekoj/git/minemine/src/globfile.py) (2/10) (Tuesday September 17, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
-%%Page: (1) 2
+%%Page: (1) 3
 %%BeginPageSetup
 /pagesave save def
 sh 0 translate 90 rotate
@@ -975,14 +1010,21 @@ x0 y0 moveto
 ( random ) p
 (import) K
 ( *) p n
+0 T () S
+(from) K
+( math ) p
+(import) K
+( *) p n
+(5) # (PI = 3.1415926535) N
+0 T (EE = 2.7182818284 ) N
 0 T () N
-(5) # () S
+0 T () S
 (def) K
 ( line\(csvfile\): ) p
 (#returns formatted line from the csvfile ) c n
 0 T () S
 (    l = csvfile.readline\(\)) p n
-0 T (    endcommare = re.compile\(') S
+(10) # (    endcommare = re.compile\(') S
 (.*,$) str
 ('\)) p n
 0 T (    ) S
@@ -993,26 +1035,26 @@ x0 y0 moveto
 0 T (        l = l.split\(') S
 (#) str
 ('\)[0]) p n
-(10) # (        l = l.replace\(') S
+0 T (        l = l.replace\(') S
 (\\t) str
 (',''\)) p n
 0 T (        l = l.replace\(') S
 (\\n) str
 (',''\)) p n
-0 T (        l = l.replace\(') S
+(15) # (        l = l.replace\(') S
 ( ) str
 (',''\)) p n
 0 T (        endcomma = endcommare.match\(l\)) N
 0 T (        ) S
 (if) K
 ( endcomma:) p n
-(15) # (            ) S
+0 T (            ) S
 (return) K
 ( l+line\(csvfile\)) p n
 0 T (        ) S
 (else) K
 (:) p n
-0 T (            ) S
+(20) # (            ) S
 (return) K
 ( l) p n
 0 T (    ) S
@@ -1021,12 +1063,12 @@ x0 y0 moveto
 0 T (        ) S
 (return) K
 ( -1) p n
-(20) # () N
+0 T () N
 0 T () S
 (def) K
 ( rowprint\(row\): ) p
 (#returns neat rows) c n
-0 T () S
+(25) # () S
 (    columns = [ ") p
 (%15s) str
 (" % cell ) p
@@ -1044,12 +1086,12 @@ x0 y0 moveto
 ( ') p
 ( ) str
 ('.join\(columns\)) p n
-(25) # (   ) N
+0 T (   ) N
 0 T () S
 (def) K
 ( expected\(row,z\): ) p
 (#returns expected outcome) c n
-0 T () S
+(30) # () S
 (    out = [c ) p
 (for) K
 ( c ) p
@@ -1065,22 +1107,22 @@ x0 y0 moveto
 ( c ) p
 (in) K
 ( wordp[z]:) p n
-(30) # (            out[colname[z].index\(c\)] = str\(mode[z][c]\)) N
+0 T (            out[colname[z].index\(c\)] = str\(mode[z][c]\)) N
 0 T (        ) S
 (else) K
 (:) p n
-0 T (            out[colname[z].index\(c\)] = str\(') S
+(35) # (            out[colname[z].index\(c\)] = str\(') S
 (%0.2f) str
 (' % round\(mu[z][c],2\)\)) p n
 0 T (    ) S
 (return) K
 ( out) p n
 0 T () N
-(35) # () S
+0 T () S
 (def) K
 ( indexes\(lst\):) p n
 0 T (    out = []*len\(lst\)) N
-0 T (    ) S
+(40) # (    ) S
 (for) K
 ( i ) p
 (in) K
@@ -1089,67 +1131,48 @@ x0 y0 moveto
 0 T (    ) S
 (return) K
 ( out) p n
-(40) # () N
+0 T () N
 0 T () S
 (def) K
 ( newdlist\(name, key\):) p n
-0 T (    name[key] = [] ) N
+(45) # (    name[key] = [] ) N
 0 T () N
 0 T () S
 (def) K
 ( newddict\(name,key\):) p n
-(45) # (    name[key] = {}) N
+0 T (    name[key] = {}) N
 0 T () N
-0 T () S
+(50) # () S
 (def) K
 ( newddictdict\(name,key,c\):) p n
 0 T (    name[key][c] = {}) N
 0 T () N
-(50) # () S
+0 T () S
 (def) K
 ( indexes\(data,z\):) p n
 0 T (    ) S
 (return) K
 ( data[z]) p n
-0 T () N
+(55) # () N
 0 T () S
 (def) K
 ( shuffled\(rows\):) p n
 0 T (    shuffle\(rows\)) N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:26) title
+0 T () N
+0 T () S
+(def) K
+( norm\(x,m,s\):) p n
+(60) # (    s += 1/10**23) N
+0 T (    a = 1/sqrt\(2*pi*s**2\)) N
+0 T (    b = \(x-m\)**2/\(2*s**2\)) N
+0 T (    ) S
+(return) K
+( a*e**\(-1*b\)) p n
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 16, 13 19:30) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/lib.py) (2/9) (Friday September 13, 2013) footer
-end % of iso1dict
-pagesave restore
-showpage
-%%Page: (1) 3
-%%BeginPageSetup
-/pagesave save def
-sh 0 translate 90 rotate
-%%EndPageSetup
-iso1dict begin
-gsave
-llx lly 12 add translate
-/v 0 store
-/x0 x v get 2.965278 add sx cw mul add store
-/y0 y v get bfs th add sub store
-x0 y0 moveto
-0 T (WARNING: empty or missing file) p n
-0 T (#got:  frogeyeleafspot) N
-0 T (11.4369501466 ) S 16 T () N
-0 T (#got:  phytophthorarot) N
-(5) # (12.0234604106 ) S 16 T () N
-0 T (#got:  frogeyeleafspot) N
-0 T (11.4369501466 ) S 16 T () N
-0 T (#got:  alternarialeafspot) N
-0 T (11.4369501466 ) S 16 T () N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:39) title
-border
-grestore
-(Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/proj1coutsoybean.txt) (3/9) (Friday September 13, 2013) footer
+(/home/rekoj/git/minemine/src/lib.py) (3/10) (Tuesday September 17, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
@@ -1165,84 +1188,283 @@ llx lly 12 add translate
 /x0 x v get 2.965278 add sx cw mul add store
 /y0 y v get bfs th add sub store
 x0 y0 moveto
-0 T (WARNING: empty or missing file) p n
-0 T (#got:  yes) N
-0 T (57.1428571429 ) S 16 T () N
+0 T (#! /usr/bin/env python) c n
+0 T () S
+(from) K
+( lib ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( reader ) p
+(import) K
+( *) p n
+0 T () S
+(from) K
+( xval ) p
+(import) K
+( *) p n
+(5) # () S
+(from) K
+( math ) p
+(import) K
+( *) p n
 0 T () N
-(5) # (==================================) N
-0 T (        outlook      -$humidity           windy           =play    #      notes) N
-0 T (          rainy           77.20           FALSE             yes    #   expected) N
-0 T (           0.40           11.90            0.80            1.00    # certainity) N
-0 T (       overcast            75.0           FALSE             yes    #) N
-(10) # (          rainy            80.0           FALSE             yes    #) N
-0 T (          rainy            96.0           FALSE             yes    #) N
-0 T (       overcast            65.0            TRUE             yes    #) N
-0 T (          sunny            70.0           FALSE             yes    #) N
-0 T (        outlook      -$humidity           windy           =play    #      notes) N
-(15) # (          rainy           90.00            TRUE              no    #   expected) N
-0 T (           0.50            0.00            0.50            1.00    # certainity) N
-0 T (          rainy            90.0            TRUE              no    #) N
-0 T (          sunny            90.0           FALSE              no    #) N
-0 T (#got:  yes) N
-(20) # (71.4285714286 ) S 16 T () N
+0 T () S
+(def) K
+( nb\(test,data,hypotheses,z,k,m\):) p n
+0 T (    total = 0.0) N
+0 T (    acc = 0.0) N
+(10) # (    ) S
+(for) K
+( h ) p
+(in) K
+( hypotheses:) p n
+0 T (        total += len\(data[h]\)) N
+0 T (    where = klassAt\(z\)) N
+0 T (    ) S
+(for) K
+( t ) p
+(in) K
+( test:) p n
+0 T (        want = t[where]) N
+(15) # (        got = likelyhood\(t,data,total,hypotheses,l,z,k,m\)) N
+0 T (        ) S
+(if) K
+( want ) p
+(\272) sy
+( got:) p n
+0 T (            acc+=1.0) N
+0 T (    ) S
+(print) K
+( ') p
+(%0.2f) str
+(' % round\(100*acc/len\(test\),2\),) p n
 0 T () N
-0 T (==================================) N
-0 T (        outlook      -$humidity           windy           =play    #      notes) N
-0 T (       overcast           81.50            TRUE             yes    #   expected) N
-(25) # (           0.50            8.70            0.50            1.00    # certainity) N
-0 T (          sunny            70.0            TRUE             yes    #) N
-0 T (       overcast            86.0           FALSE             yes    #) N
-0 T (       overcast            90.0            TRUE             yes    #) N
-0 T (          rainy            80.0           FALSE             yes    #) N
-(30) # (        outlook      -$humidity           windy           =play    #      notes) N
-0 T (          sunny           90.00            TRUE              no    #   expected) N
-0 T (           0.67            0.00            0.67            1.00    # certainity) N
-0 T (          rainy               ?            TRUE              no    #) N
-0 T (          sunny               ?           FALSE              no    #) N
-(35) # (          sunny            90.0            TRUE              no    #) N
-0 T (#got:  yes) N
-0 T (57.1428571429 ) S 16 T () N
-0 T () N
-0 T (==================================) N
-(40) # (        outlook      -$humidity           windy           =play    #      notes) N
-0 T (          rainy           77.20           FALSE             yes    #   expected) N
-0 T (           0.40           11.90            0.80            1.00    # certainity) N
-0 T (          sunny            70.0           FALSE             yes    #) N
-0 T (       overcast            65.0            TRUE             yes    #) N
-(45) # (          rainy            80.0           FALSE             yes    #) N
-0 T (          rainy            96.0           FALSE             yes    #) N
-0 T (       overcast            75.0           FALSE             yes    #) N
-0 T (        outlook      -$humidity           windy           =play    #      notes) N
-0 T (          sunny           90.00           FALSE              no    #   expected) N
-(50) # (           0.50            0.00            0.50            1.00    # certainity) N
-0 T (          sunny            90.0           FALSE              no    #) N
-0 T (          rainy            90.0            TRUE              no    #) N
-0 T (#got:  yes) N
-0 T (71.4285714286 ) S 16 T () N
-(55) # () N
-0 T (==================================) N
-0 T (        outlook      -$humidity           windy           =play    #      notes) N
-0 T (       overcast           81.50           FALSE             yes    #   expected) N
-0 T (           0.50            8.70            0.50            1.00    # certainity) N
-(60) # (       overcast            86.0           FALSE             yes    #) N
-0 T (          rainy            80.0           FALSE             yes    #) N
-0 T (          sunny            70.0            TRUE             yes    #) N
-0 T (       overcast            90.0            TRUE             yes    #) N
-0 T (        outlook      -$humidity           windy           =play    #      notes) N
-(65) # (          sunny           90.00            TRUE              no    #   expected) N
-0 T (           0.67            0.00            0.67            1.00    # certainity) N
-0 T (          sunny               ?           FALSE              no    #) N
-0 T (          sunny            90.0            TRUE              no    #) N
-0 T (          rainy               ?            TRUE              no    #) N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:32) title
+(20) # () S
+(def) K
+( likelyhood\(t,data,total,hypotheses,l,z,k,m\):) p n
+0 T (    like = -0.1*10**23) N
+0 T (    best = '') N
+0 T (    total += k*len\(hypotheses\)) N
+0 T (    ) S
+(for) K
+( h ) p
+(in) K
+( hypotheses:) p n
+(25) # (        nh = len\(data[h]\)*0.1) N
+0 T (        prior = \(nh+k\) / total) N
+0 T (        tmp = log\(prior\)) N
+0 T (        ) S
+(for) K
+( c ) p
+(in) K
+( term[h]:) p n
+0 T (            ) S
+(try) K
+(:) p n
+(30) # (                ind = colname[h].index\(c\)) N
+0 T (                x = t[ind]) N
+0 T (                ) S
+(if) K
+( x ) p
+(\272) sy
+( ') p
+(?) str
+(':) p n
+0 T (                    ) S
+(continue) K n
+0 T () S
+(                y = count[h][c][x]) p n
+(35) # (                tmp += log\(\(y + m*prior\)/\(nh+m\)\)) N
+0 T (            ) S
+(except) K
+( KeyError:) p n
+0 T (                ) S
+(continue) K n
+0 T () S
+(        ) p
+(for) K
+( c ) p
+(in) K
+( num[h]:) p n
+0 T (            ind = colname[h].index\(c\)) N
+(40) # (            x = t[ind]) N
+0 T (            ) S
+(if) K
+( x ) p
+(\272) sy
+( ') p
+(?) str
+(':) p n
+0 T (                ) S
+(continue) K n
+0 T () S
+(            y = norm\(x, mu[h][c], sd[h][c]\)) p n
+0 T (            tmp += log\(y\)) N
+(45) # (        l[h] = tmp) N
+0 T (        ) S
+(if) K
+( tmp ) p
+(\263) sy
+( like:) p n
+0 T (            like = tmp;) N
+0 T (            best = h) N
+0 T (    ) S
+(return) K
+( best) p n
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 14, 13 18:34) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/proj1cout.txt) (4/9) (Friday September 13, 2013) footer
+(/home/rekoj/git/minemine/src/nb.py) (4/10) (Tuesday September 17, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
-%%Page: (1) 5
+%%Page: (1-2) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (WARNING: empty or missing file) p n
+0 T (#got:  yes) N
+0 T (71.43 ) N
+0 T (==================================) N
+(5) # (        outlook           $temp       $humidity           windy           =play ) N
+0 T (   #      notes) N
+0 T (       overcast           72.50           79.00           FALSE             yes ) N
+0 T (   #   expected) N
+0 T (           0.50            7.23           12.94            0.75            1.00 ) N
+0 T (   # certainity) N
+0 T (       overcast            81.0            75.0           FALSE             yes ) N
+0 T (   #) N
+0 T (          rainy            75.0            80.0           FALSE             yes ) N
+0 T (   #) N
+(10) # (       overcast            64.0            65.0            TRUE             yes ) N
+0 T (   #) N
+0 T (          rainy            70.0            96.0           FALSE             yes ) N
+0 T (   #) N
+0 T (        outlook           $temp       $humidity           windy           =play ) N
+0 T (   #      notes) N
+0 T (          sunny           76.00           90.33           FALSE              no ) N
+0 T (   #   expected) N
+0 T (           0.67            7.81            5.03            0.67            1.00 ) N
+0 T (   # certainity) N
+(15) # (          sunny            72.0            95.0           FALSE              no ) N
+0 T (   #) N
+0 T (          rainy            71.0            91.0            TRUE              no ) N
+0 T (   #) N
+0 T (          sunny            85.0            85.0           FALSE              no ) N
+0 T (   #) N
+0 T (#got:  yes) N
+0 T (57.14 ) N
+(20) # (==================================) N
+0 T (        outlook           $temp       $humidity           windy           =play ) N
+0 T (   #      notes) N
+0 T (          sunny           73.40           79.20           FALSE             yes ) N
+0 T (   #   expected) N
+0 T (           0.40            6.02            9.12            0.60            1.00 ) N
+0 T (   # certainity) N
+0 T (          sunny            75.0            70.0            TRUE             yes ) N
+0 T (   #) N
+(25) # (          rainy            68.0            80.0           FALSE             yes ) N
+0 T (   #) N
+0 T (          sunny            69.0            70.0           FALSE             yes ) N
+0 T (   #) N
+0 T (       overcast            72.0            90.0            TRUE             yes ) N
+0 T (   #) N
+0 T (       overcast            83.0            86.0           FALSE             yes ) N
+0 T (   #) N
+0 T (        outlook           $temp       $humidity           windy           =play ) N
+0 T (   #      notes) N
+(30) # (          sunny           72.50           80.00            TRUE              no ) N
+0 T (   #   expected) N
+0 T (           0.50           10.61           14.14            1.00            1.00 ) N
+0 T (   # certainity) N
+0 T (          sunny            80.0            90.0            TRUE              no ) N
+0 T (   #) N
+0 T (          rainy            65.0            70.0            TRUE              no ) N
+0 T (   #) N
+0 T (#got:  yes) N
+(35) # (57.14 ) N
+0 T (==================================) N
+0 T (        outlook           $temp       $humidity           windy           =play ) N
+0 T (   #      notes) N
+0 T (          rainy           70.40           77.20           FALSE             yes ) N
+0 T (   #   expected) N
+0 T (           0.40            6.35           11.90            0.80            1.00 ) N
+0 T (   # certainity) N
+(40) # (          sunny            69.0            70.0           FALSE             yes ) N
+0 T (   #) N
+0 T (       overcast            64.0            65.0            TRUE             yes ) N
+0 T (   #) N
+0 T (          rainy            70.0            96.0           FALSE             yes ) N
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/2) (Sep 17, 13 0:04) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+0 T (   #) p n
+0 T (          rainy            68.0            80.0           FALSE             yes ) N
+0 T (   #) N
+0 T (       overcast            81.0            75.0           FALSE             yes ) N
+0 T (   #) N
+(45) # (        outlook           $temp       $humidity           windy           =play ) N
+0 T (   #      notes) N
+0 T (          rainy           78.00           88.00            TRUE              no ) N
+0 T (   #   expected) N
+0 T (           0.50            9.90            4.24            0.50            1.00 ) N
+0 T (   # certainity) N
+0 T (          rainy            71.0            91.0            TRUE              no ) N
+0 T (   #) N
+0 T (          sunny            85.0            85.0           FALSE              no ) N
+0 T (   #) N
+(50) # (#got:  yes) N
+0 T (71.43 ) N
+0 T (==================================) N
+0 T (        outlook           $temp       $humidity           windy           =play ) N
+0 T (   #      notes) N
+0 T (       overcast           76.25           81.50           FALSE             yes ) N
+0 T (   #   expected) N
+(55) # (           0.50            4.72            8.70            0.50            1.00 ) N
+0 T (   # certainity) N
+0 T (       overcast            83.0            86.0           FALSE             yes ) N
+0 T (   #) N
+0 T (          rainy            75.0            80.0           FALSE             yes ) N
+0 T (   #) N
+0 T (          sunny            75.0            70.0            TRUE             yes ) N
+0 T (   #) N
+0 T (       overcast            72.0            90.0            TRUE             yes ) N
+0 T (   #) N
+(60) # (        outlook           $temp       $humidity           windy           =play ) N
+0 T (   #      notes) N
+0 T (          sunny           72.33           85.00            TRUE              no ) N
+0 T (   #   expected) N
+0 T (           0.67            7.51           13.23            0.67            1.00 ) N
+0 T (   # certainity) N
+0 T (          sunny            80.0            90.0            TRUE              no ) N
+0 T (   #) N
+0 T (          sunny            72.0            95.0           FALSE              no ) N
+0 T (   #) N
+(65) # (          rainy            65.0            70.0            TRUE              no ) N
+0 T (   #) N
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 2/2) (Sep 17, 13 0:04) title
+border
+grestore
+(Printed by rekoJ) rhead
+(/home/rekoj/git/minemine/src/proj1cout.txt) (5/10) (Tuesday September 17, 2013) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 6
 %%BeginPageSetup
 /pagesave save def
 sh 0 translate 90 rotate
@@ -1275,29 +1497,31 @@ x0 y0 moveto
 ( *) p n
 (5) # () N
 0 T (csvfile = open\(') S
-(../data/soybean.csv) str
+(../data/) str
+('+argv[1]+') p
+(.csv) str
 (',') p
 (r) str
 ('\)) p n
-0 T (readCsv\(csvfile,argv[1]\) ) S
+0 T (readCsv\(csvfile,argv[2]\) ) S
 (#takes predicted value as arguement) c n
 0 T () S
 (xvals\(data,2,2,') p
-(zeror) str
-(',argv[1]\)) p n
+(nb) str
+(',argv[2],1,2\)) p n
 0 T (                                 ) N
 (10) # () S
 (#tableprint\(argv[1]\)) c n
 0 T () N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:36) title
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 16, 13 23:44) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/readered.py) (5/9) (Friday September 13, 2013) footer
+(/home/rekoj/git/minemine/src/readered.py) (6/10) (Tuesday September 17, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
-%%Page: (1-2) 6
+%%Page: (1-2) 7
 %%BeginPageSetup
 /pagesave save def
 sh 0 translate 90 rotate
@@ -1566,11 +1790,11 @@ x0 y0 moveto
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/reader.py) (6/9) (Friday September 13, 2013) footer
+(/home/rekoj/git/minemine/src/reader.py) (7/10) (Tuesday September 17, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
-%%Page: (1) 7
+%%Page: (1) 8
 %%BeginPageSetup
 /pagesave save def
 sh 0 translate 90 rotate
@@ -1678,11 +1902,11 @@ x0 y0 moveto
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/table.py) (7/9) (Friday September 13, 2013) footer
+(/home/rekoj/git/minemine/src/table.py) (8/10) (Tuesday September 17, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
-%%Page: (1) 8
+%%Page: (1) 9
 %%BeginPageSetup
 /pagesave save def
 sh 0 translate 90 rotate
@@ -1715,13 +1939,18 @@ x0 y0 moveto
 ( zeror ) p
 (import) K
 ( *) p n
+0 T () S
+(from) K
+( nb ) p
+(import) K
+( *) p n
 0 T () N
 0 T () S
 (def) K
-( xvals\(data,x,b,f,z\):) p n
+( xvals\(data,x,b,f,z,k,m\):) p n
 0 T (    rows = indexes\(data,z\)) N
-0 T (    s = int\(len\(rows\)/b\)) N
-(10) # (    ) S
+(10) # (    s = int\(len\(rows\)/b\)) N
+0 T (    ) S
 (while) K
 ( x>0:) p n
 0 T (        shuffled\(rows\)) N
@@ -1730,16 +1959,16 @@ x0 y0 moveto
 ( b1 ) p
 (in) K
 ( range\(0,b\):) p n
-0 T (            xval\(b1*s, \(b1+1\)*s, data, rows, f, z\)) N
-0 T (        x=x-1) N
-(15) # () N
+0 T (            xval\(b1*s, \(b1+1\)*s, data, rows, f, z, k, m\)) N
+(15) # (        x=x-1) N
+0 T () N
 0 T () S
 (def) K
-(  xval\(start, stop, data, rows, f, z\):) p n
+(  xval\(start, stop, data, rows, f, z, k, m\):) p n
 0 T (    rmax = len\(rows\)) N
 0 T (    test = []) N
-0 T (    hypotheses = {}) N
-(20) # (    temp = "") N
+(20) # (    hypotheses = {}) N
+0 T (    temp = "") N
 0 T (    newddict\(data,z\)) N
 0 T (    ) S
 (for) K
@@ -1747,14 +1976,14 @@ x0 y0 moveto
 (in) K
 ( range\(0, rmax\):) p n
 0 T (        d = rows[r]) N
-0 T (        ) S
+(25) # (        ) S
 (if) K
 ( r ) p
 (\263) sy
 ( start ) p
 (\331) sy
 ( r < stop:) p n
-(25) # (            test.append\(d\)) N
+0 T (            test.append\(d\)) N
 0 T (        ) S
 (else) K
 (:) p n
@@ -1762,8 +1991,8 @@ x0 y0 moveto
 0 T (            ) S
 (try) K
 (:) p n
-0 T (                hypotheses[temp] += 1) N
-(30) # (                ) S
+(30) # (                hypotheses[temp] += 1) N
+0 T (                ) S
 (if) K
 ( hypotheses[temp] ) p
 (\272) sy
@@ -1773,8 +2002,8 @@ x0 y0 moveto
 0 T (            ) S
 (except) K
 ( KeyError:) p n
-0 T (                hypotheses[temp] = 1) N
-(35) # (                ) S
+(35) # (                hypotheses[temp] = 1) N
+0 T (                ) S
 (if) K
 ( hypotheses[temp] ) p
 (\272) sy
@@ -1782,9 +2011,12 @@ x0 y0 moveto
 0 T (                    makeTable\(colname[z],temp\)) N
 0 T (                addRow\(d,temp\)) N
 0 T (    zeror\(test, data, hypotheses, z\) ) N
-0 T (    ) S
+(40) # (    ) S
 (#xvalTest1\(test,data,hypotheses\)) c n
-(40) # () N
+0 T () S
+(    ) p
+(#nb\(test,data,hypotheses,z,k,m\)) c n
+0 T () N
 0 T () S
 (def) K
 ( xvalTest1\(test,data,hypotheses\):) p n
@@ -1793,21 +2025,21 @@ x0 y0 moveto
 ( ") p
 (\\n==================================) str
 (") p n
-0 T (    ) S
+(45) # (    ) S
 (for) K
 ( h ) p
 (in) K
 ( hypotheses:) p n
 0 T (        tableprint\(h\)) N
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:38) title
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 17, 13 0:04) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/xval.py) (8/9) (Friday September 13, 2013) footer
+(/home/rekoj/git/minemine/src/xval.py) (9/10) (Tuesday September 17, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
-%%Page: (1) 9
+%%Page: (1) 10
 %%BeginPageSetup
 /pagesave save def
 sh 0 translate 90 rotate
@@ -1852,11 +2084,9 @@ x0 y0 moveto
 0 T (            hmost = these) N
 0 T (            got = h) N
 0 T (    ) S
-(print) K
-( ") p
-(#got: ) str
-(",got) p n
-(15) # (    where = klassAt\(z\)) N
+(#print "#got: ",got) c n
+(15) # () S
+(    where = klassAt\(z\)) p n
 0 T (    ) S
 (for) K
 ( t ) p
@@ -1871,14 +2101,14 @@ x0 y0 moveto
 0 T (            acc+=1.0) N
 (20) # (    ) S
 (print) K
-( 100*acc/len\(test\),") p
-(\\t) str
-(") p n
-(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 13, 13 19:25) title
+( ') p
+(%0.2f) str
+(' % round\(100*acc/len\(test\),2\),) p n
+(573:proj1c:Naveen Kumar Lekkalapudi) (Page 1/1) (Sep 17, 13 0:05) title
 border
 grestore
 (Printed by rekoJ) rhead
-(/home/rekoj/git/minemine/src/zeror.py) (9/9) (Friday September 13, 2013) footer
+(/home/rekoj/git/minemine/src/zeror.py) (10/10) (Tuesday September 17, 2013) footer
 end % of iso1dict
 pagesave restore
 showpage
