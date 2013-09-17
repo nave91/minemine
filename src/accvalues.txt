@@ -1,8 +1,0 @@
-weather
-zeror
-WARNING: empty or missing file
-71.43 57.14 57.14 71.43
-soybean
-zeror
-WARNING: empty or missing file
-11.73 11.44 11.44 12.32

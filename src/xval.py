@@ -36,9 +36,9 @@ def  xval(start, stop, data, rows, f, z, k, m):
                 if hypotheses[temp] == 1:
                     makeTable(colname[z],temp)
                 addRow(d,temp)
-    zeror(test, data, hypotheses, z) 
+    #zeror(test, data, hypotheses, z) 
     #xvalTest1(test,data,hypotheses)
-    #nb(test,data,hypotheses,z,k,m)
+    nb(test,data,hypotheses,z,k,m)
 
 def xvalTest1(test,data,hypotheses):
     print "\n=================================="
