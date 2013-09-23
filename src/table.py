@@ -13,6 +13,11 @@ def tableprint(z): #prints table with the summary
     for row in data[z]:
         print rowprint(row)
 
+def tableprint1(z):
+    print rowprint(colname[z])
+    for row in data[z]:
+        print rowprint(row)
+
 def klass1(data, z):
     for k in klass[z]:
         return data[colname[z].index(k)]

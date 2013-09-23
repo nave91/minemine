@@ -34,11 +34,12 @@ def makeTable(lst,z):
         else:
             colname[z].append(csvcol)
             order[z][csvcol] = csvindex
-            klasschk = re.match('=.*$',csvcol)
+            klasschk = re.match('!.*$',csvcol)
+            klasschk1 = re.match('=.*$',csvcol)
             morechk = re.match('\+.*$',csvcol)
             lesschk = re.match('-.*$',csvcol)
             numchk = re.match('\$.*$',csvcol)
-            if klasschk:
+            if klasschk or klasschk1:
                 dep[z].append(csvcol)
                 klass[z].append(csvcol)
                 isnum = False
@@ -77,7 +78,7 @@ def addRow(lst,z):
         item = lst[csvindex]
         if item != z:
             skip = True
-        if z == "both":
+        if z == "both" or z == "train":
             skip = False
     for c in colname[z]:
         csvindex = order[z][c]

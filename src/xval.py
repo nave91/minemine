@@ -1,4 +1,4 @@
-#! /bin/python
+#! /usr/bin/env python
 from lib import *
 from reader import *
 from table import *
@@ -19,7 +19,7 @@ def  xval(start, stop, data, rows, f, z, k, m):
     test = []
     hypotheses = {}
     temp = ""
-    newddict(data,z)
+    #newddict(data,z)
     for r in range(0, rmax):
         d = rows[r]
         if r >= start and r < stop:
@@ -39,6 +39,7 @@ def  xval(start, stop, data, rows, f, z, k, m):
     #zeror(test, data, hypotheses, z) 
     #xvalTest1(test,data,hypotheses)
     nb(test,data,hypotheses,z,k,m)
+
 
 def xvalTest1(test,data,hypotheses):
     print "\n=================================="
