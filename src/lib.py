@@ -61,3 +61,35 @@ def norm(x,m,s):
     a = 1/sqrt(2*pi*s**2)
     b = (x-m)**2/(2*s**2)
     return a*e**(-1*b)
+
+def numberp(x):
+    return isinstance(x,int)#0 if x == "" else 1 if x == (0+int(x)) else 0
+
+def l2s(l,sep,form):
+    form = form if form != "" else "%5.3f"
+    s = ""
+    n = len(l)
+    for i in range(0,n):
+        one = l[i]
+        if numberp(one):
+            one = format(one,form)
+        s = s+sep+str(one)
+    return s
+
+def l2sd(d,sep,form):
+    form = form if form != "" else "%5.3f"
+    s = ""
+    for i in d:
+        one = d[i]
+        #if numberp(one):
+        #    one = format(str(one),form)
+        s = s+sep+str(round(one,3))
+    return s
+
+def pairs(lst):
+    tmp = {}
+    i = 0
+    while(i < len(lst)):
+        tmp[lst[i]] = lst[i+1]
+        i += 2
+    return tmp
