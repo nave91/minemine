@@ -1,0 +1,33 @@
++Title: Proj 2:CS573
++===================
++I would like to calculate the performance of an k-naive bayes learner. 
++Where k are the nearest neighbours on which the naive bayes classifier is applied.
++
++Prologue
++---------
++It would seem a bit ridiculous to combine a supervised and unsupervised learning methods.
++But I suppose it would clear the disadvantages of each learner and provide us with an efficient learner with all the advantages.
++
++The disadvantage of the naive bayes classifier is that it looses its accuracy around the boundaries of clusters.
++We can improve the accuracy of naive bayes by determining the boundaries of each cluster.
++
++We can use k-nn method to our advantage and consider only the values closest to the given test case to apply naive bayes. 
++This helps us to zoom into the boundaries of clusters to clear the mispredictions and improve accuracy.
++
++Approximate Steps
++-----------------
++1a. For a given test record, Calculate the distance using knn to get the attribute "distance" for each record in training data.
++1b. While calculating the distance ignore the goal column.
++2. By using the "distance"s calculated  obtain a cluster that is closest to the given test case.
++3. This cluster consists of the nearest records of given test record.
++4. To get the closest cluster we need to perform cuts on the entire training data.
++5. The tests given in scott-knott procedure i.e. Cohens, Hedges, A12 can be used to determine the best cut on "distance".
++6. The cluster obtained from such cut is closest to the given test case. 
++7. We could perform naive bayes on the values of that cluster (by including the goal column now) to predict the goal.
++8. As it involves only the values closer to the test case, I assume we are zooming into the part where clusters of goal meet.
++9. With more clarity, I assume the accuracy to be improving.
++
++Conclusion
++----------
++I assume that by considering only the values closer to given case, we could improve the accuracy of naive bayes.
++Which I would like to test in the project.
