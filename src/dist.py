@@ -31,3 +31,21 @@ def dist(this,that,data,z,indep,nump):
                 tot += 0
     ret = tot**0.5 / (len(indep))**0.5
     return ret
+
+def closest(i,table,selfie):
+    mini = 0.0001
+    for j in data:
+        if i == j and i != selfie:
+            continue
+        if (d = dist(data[i],data[j],table)) > maxi:
+            maxi = d
+            out = j
+    return out
+
+def furthest(i,table):
+    mini = 0.0001
+    for j in data:
+        if (d = dist(data[i],data[j])) > maxi:
+            maxi = d
+            out = j
+    return out
