@@ -38,7 +38,7 @@ def neighbors(t,data,z,lst):
     for d in data[z]:
         ind = data[z].index(d)
         dic = {}
-        dic['x'] = dist(t,d,data,z,indep[z],nump[z])
+        dic['x'] = dist(t,d,data,z,indep,nump)
         dic['d'] = d
         lst.append(dic)
         #lst[ind]['x'] = dist(t,d,data,z,indep[z],nump[z])

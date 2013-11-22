@@ -2,7 +2,7 @@ from reader import *
 from  xval import *
 from lib import *
 
-def zeror(test,data,hypotheses,z):
+def zeror(test,data,hypotheses,z,k,m):
     hmost = -10**23
     acc = 0
     got = ""

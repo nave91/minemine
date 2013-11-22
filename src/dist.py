@@ -3,13 +3,13 @@ from reader import *
 
 def dist(this,that,data,z,indep,nump):
     tot = 0.0
-    for k in indep:
+    for k in indep[z]:
         ind = colname[z].index(k)
         v1 = this[ind]
         v2 = that[ind]
         if v1 == "?" and v2 == "?":
             tot+=1
-        elif k in nump:
+        elif k in nump[z]:
             aLittle = 0.0000001
             if v1 == "?":
                 v1 = 1 if v2 < 0.5 else 0
@@ -29,23 +29,26 @@ def dist(this,that,data,z,indep,nump):
                 tot += 1
             else:
                 tot += 0
-    ret = tot**0.5 / (len(indep))**0.5
+    ret = tot**0.5 / (len(indep[z]))**0.5
     return ret
 
-def closest(i,table,selfie):
+def closest(i,z,selfie,data):
     mini = 0.0001
+    indi = data[z].index(i)
     for j in data:
         if i == j and i != selfie:
             continue
-        if (d = dist(data[i],data[j],table)) > maxi:
+        d = dist(data[i],data[j],data,z,indep,nump)        
+        if d > maxi:
             maxi = d
             out = j
     return out
 
-def furthest(i,table):
+def furthest(i,data,z):
     mini = 0.0001
     for j in data:
-        if (d = dist(data[i],data[j])) > maxi:
+        d = dist(data[i],data[j],data,z,indep,nump)
+        if d > maxi:
             maxi = d
             out = j
     return out

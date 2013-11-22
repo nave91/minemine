@@ -4,6 +4,7 @@ from reader import *
 from table import *
 from zeror import *
 from nb import *
+import module
 
 def xvals(data,x,b,f,z,k,m):
     rows = indexes(data,z)
@@ -36,9 +37,11 @@ def  xval(start, stop, data, rows, f, z, k, m):
                 if hypotheses[temp] == 1:
                     makeTable(colname[z],temp)
                 addRow(d,temp)
+    tocall = getattr(module,f)
+    tocall(test,data,hypotheses,z,k,m)
     #zeror(test, data, hypotheses, z) 
     #xvalTest1(test,data,hypotheses)
-    nb(test,data,hypotheses,z,k,m)
+    #nb(test,data,hypotheses,z,k,m)
 
 
 def xvalTest1(test,data,hypotheses):
