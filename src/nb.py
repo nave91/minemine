@@ -41,6 +41,7 @@ def likelyhood(t,data,total,hypotheses,l,z,k,m):
             if x == '?':
                 continue
             y = norm(x, mu[h][c], sd[h][c])
+            if y == 0.0 or y > 1.0: y = 1.0
             tmp += log(y)
         l[h] = tmp
         if tmp >= like:

@@ -57,9 +57,9 @@ def shuffled(rows):
     shuffle(rows)
 
 def norm(x,m,s):
-    s+=0.00001
+    s+=0.000001
     a = 1/sqrt(2*pi*(s**2))
-    b = (x-m)**2/(2*s**2)
+    b = (x-m)**2/(2*(s**2))
     return a*e**(-1*b)
 
 def numberp(x):
