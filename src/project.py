@@ -1,47 +1,52 @@
-def project(t,data):
-    d  = anyi(data)
-    x = []
-    y = []
-    east = furthest(d,data,t)
-    west = furthest(d,data,t)
-    project0(east,west,data,t,x,y)
-    return widen(t,x,y)
+from reader import *
+from dist import *
+from sys import *
+from table import *
+def project(z,data):
+    d  = anyi(data[z])
+    if d == len(data[z]):
+        d-=1
+    x = [0]*len(data[z])
+    y = [0]*len(data[z])
+    east = furthest(d,data,z)
+    west = furthest(data[z].index(east),data,z)
+    inde = data[z].index(east)
+    indw = data[z].index(west)
+    project0(inde,indw,data,z,x,y,count)
+    return widen(z,x,y,more,less)
 
-def project0(east,west,data,t,x,y):
+def project0(east,west,data,z,x,y,count):
     print "+"
     bigger = 1.05
     some = 0.000001
-    inde = data[z].index(east)
-    indw = data[z].index(west)
-    c = dist(data[z][inde],data[z][indw],data,z,indep,nump)
-    for d in data:
-        ind = data.index(d)
-        a = dist(data[ind],data[east])
-        b = dist(data[ind],data[west])
+    c = dist(data[z][east],data[z][west],data,z,indep,nump)
+    for d in data[z]:
+        ind = data[z].index(d)
+        a = dist(data[z][ind],data[z][east],data,z,indep,nump)
+        b = dist(data[z][ind],data[z][west],data,z,indep,nump)
         if b > c*bigger:
-            return project0(east,d,data,t,x,y)
+            return project0(east,ind,data,z,x,y,count)
         if a > c*bigger:
-            return project0(d,west,data,t,x,y)
-        print "."
-        x[d] = (a^2 + c^2 - b^2) / (2*c + some)
-        y[d] = (a^2 - x[d]^2)^0.5
+            return project0(ind,west,data,z,x,y,count)
+        #print "."
+        x[ind] = (a**2 + c**2 - b**2) / (2*c + some)
+        y[ind] = (a**2 - x[ind]**2)**0.5
 
-def widen(t,x,y):
-    adds = colname[t]
-    adds.extend("$_XX")
-    adds.extend("$_yy")
-    adds.extend("$_Hell")
-    adds.extend("_ZZ")
-    w = "__"+t
+def widen(z,x,y,more,less):
+    adds = []
+    adds.extend(colname[z])
+    adds.extend(["$_XX"])
+    adds.extend(["$_yy"])
+    adds.extend(["_ZZ"])
+    w = "__"+z
     makeTable(adds,w)
-    for d in data[t]:
-        ind = data[t].index(d)
-        hell = fromHell(data[t][ind],t)
-        wider = data[t][ind]
-        wider.extend(x[d])
-        wider.extend(y[d])
-        wider.extend(hell)
-        wider.extend(0)
+    for d in data[z]:
+        ind = data[z].index(d)
+        hell = fromHell(data[z][ind],z,more,less)
+        wider = data[z][ind]
+        wider.extend([x[ind]])
+        wider.extend([y[ind]])
+        wider.extend([0])
         addRow(wider,w)
     return w
 

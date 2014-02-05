@@ -7,16 +7,18 @@ def dist(this,that,data,z,indep,nump):
         ind = colname[z].index(k)
         v1 = this[ind]
         v2 = that[ind]
+        #print ">","v1",v1,"v2",v2
         if v1 == "?" and v2 == "?":
             tot+=1
         elif k in nump[z]:
             aLittle = 0.0000001
+            mid = (hi[z][k] - lo[z][k])/2
             if v1 == "?":
-                v1 = 1 if v2 < 0.5 else 0
+                v1 = 1 if v2 < mid else 0
             else:
                 v1 = (v1 - lo[z][k])/ (hi[z][k] - lo[z][k] + aLittle)
             if v2 == "?":
-                v2 = 1 if v1 < 0.5 else 0
+                v2 = 1 if v1 < mid else 0
             else:
                 v2 = (v2 - lo[z][k])/ (hi[z][k] - lo[z][k] + aLittle)
             tot += (v2-v1)**2
@@ -35,19 +37,20 @@ def dist(this,that,data,z,indep,nump):
 def closest(i,z,selfie,data):
     mini = 0.0001
     indi = data[z].index(i)
-    for j in data:
+    for j in data[z]:
         if i == j and i != selfie:
             continue
-        d = dist(data[i],data[j],data,z,indep,nump)        
+        d = dist(data[z][i],data[z][j],data,z,indep,nump)
         if d > maxi:
             maxi = d
             out = j
     return out
 
 def furthest(i,data,z):
-    mini = 0.0001
-    for j in data:
-        d = dist(data[i],data[j],data,z,indep,nump)
+    maxi = -1
+    out = 0
+    for j in data[z]:
+        d = dist(data[z][i],j,data,z,indep,nump)
         if d > maxi:
             maxi = d
             out = j

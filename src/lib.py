@@ -57,13 +57,13 @@ def shuffled(rows):
     shuffle(rows)
 
 def norm(x,m,s):
-    s+=0.000001
+    s += 0.0001
     a = 1/sqrt(2*pi*(s**2))
-    b = (x-m)**2/(2*(s**2))
+    b = (x-m)**2/(2*s**2)
     return a*e**(-1*b)
 
 def numberp(x):
-    return isinstance(x,int)
+    return isinstance(x,int)#0 if x == "" else 1 if x == (0+int(x)) else 0
 
 def l2s(l,sep,form):
     form = form if form != "" else "%5.3f"
@@ -81,6 +81,8 @@ def l2sd(d,sep,form):
     s = ""
     for i in d:
         one = d[i]
+        #if numberp(one):
+        #    one = format(str(one),form)
         s = s+sep+str(round(one,3))
     return s
 
@@ -91,3 +93,7 @@ def pairs(lst):
         tmp[lst[i]] = lst[i+1]
         i += 2
     return tmp
+
+def anyi(lst):
+    tmp = random()
+    return int(tmp*len(lst)) + 1

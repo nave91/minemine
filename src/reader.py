@@ -36,10 +36,12 @@ def makeTable(lst,z):
             order[z][csvcol] = csvindex
             klasschk = re.match('!.*$',csvcol)
             klasschk1 = re.match('=.*$',csvcol)
+            klasschk2 = re.match('<.*$',csvcol)
+            klasschk3 = re.match('\+.*$',csvcol)
             morechk = re.match('\+.*$',csvcol)
             lesschk = re.match('-.*$',csvcol)
             numchk = re.match('\$.*$',csvcol)
-            if klasschk or klasschk1:
+            if klasschk or klasschk1 or klasschk2:
                 dep[z].append(csvcol)
                 klass[z].append(csvcol)
                 isnum = False
@@ -73,12 +75,13 @@ def makeTable(lst,z):
 def addRow(lst,z):
     temp = []
     skip = False
+    undscorechk = re.match('__.*$',z)
     for c in klass[z]:
         csvindex = order[z][c]
         item = lst[csvindex]
         if item != z:
             skip = True
-        if z == "both" or z == "train":
+        if z == "both" or z == "train" or undscorechk:
             skip = False
     for c in colname[z]:
         csvindex = order[z][c]
